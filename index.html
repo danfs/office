@@ -1,0 +1,49 @@
+<!doctype>
+<html>
+<head>
+    <base href="/">
+    	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="favicon.ico">
+    <title>The Work Place</title>
+    <!-- Load libraries -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.js"></script>
+    <script src="node_modules/angular2/bundles/router.dev.js"></script>
+    <script src="node_modules/angular2/bundles/http.js"></script>
+    	<link rel="stylesheet" href="src/css/app.css">
+    	<link href="src/css/bootstrap.min.css" rel="stylesheet">
+		<link href="src/css/font-awesome.css" rel="stylesheet">
+		<link href="src/css/style.css" rel="stylesheet">
+		<link href="src/css/animate.css" rel="stylesheet">
+</head>
+<body>
+<my-app>Loading...</my-app>
+</body>
+<script src="src/js/jquery.js"></script>
+<script src="src/js/bootstrap.min.js"></script>
+<script src="src/js/wow.min.js"></script>
+<script src="src/js/custom.js"></script>
+<script>
+    System.config({
+        packages: {
+            app: {
+                format: 'register',
+                defaultExtension: 'js'
+            }
+        }
+    });
+    System.import('app/boot')
+            .then(null, console.error.bind(console));
+</script>
+</html>
