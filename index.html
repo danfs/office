@@ -1,7 +1,7 @@
-<!doctype>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <base href="/">
+    <base href="/office/">
     	<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,40 +10,76 @@
 		<meta name="author" content="">
 		<link rel="icon" href="favicon.ico">
     <title>The Work Place</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
     <!-- Load libraries -->
+	<script src="src/js/jquery.js"></script>
+    <script src="src/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="src/js/bootstrap.min.js"></script>
+    <script src="src/js/wow.min.js"></script>
+    <script src="src/js/custom.js"></script>
+    <script src="src/js/jquery-ui.min.js"></script>
+    <script src="src/js/jquery.mousewheel.js"></script>
+    
     <!-- IE required polyfills, in this exact order -->
     <script src="node_modules/es6-shim/es6-shim.min.js"></script>
     <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
     <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
-    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <!--<script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>-->
+    
+<script src="node_modules/zone.js/dist/zone.js"></script>
+<script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
     <script src="node_modules/rxjs/bundles/Rx.js"></script>
     <script src="node_modules/angular2/bundles/angular2.js"></script>
     <script src="node_modules/angular2/bundles/router.dev.js"></script>
     <script src="node_modules/angular2/bundles/http.js"></script>
+    <!--<script src="systemjs.config.js"></script>-->
+    
     	<link rel="stylesheet" href="src/css/app.css">
     	<link href="src/css/bootstrap.min.css" rel="stylesheet">
 		<link href="src/css/font-awesome.css" rel="stylesheet">
 		<link href="src/css/style.css" rel="stylesheet">
 		<link href="src/css/animate.css" rel="stylesheet">
+        
+ <!--<script src="//cdn.auth0.com/js/lock/10.0/lock.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
+
 </head>
 <body>
 <my-app>Loading...</my-app>
 </body>
-<script src="src/js/jquery.js"></script>
-<script src="src/js/bootstrap.min.js"></script>
-<script src="src/js/wow.min.js"></script>
-<script src="src/js/custom.js"></script>
 <script>
-    System.config({
+    /*System.config({
+		map:{'angular2-google-maps': 'node_modules/angular2-google-maps'},
         packages: {
-            app: {
+            'app': {
                 format: 'register',
                 defaultExtension: 'js'
-            }
+            },
+		'angular2-google-maps/core':  { main: 'index.js', defaultExtension: 'js' }
         }
-    });
-    System.import('app/boot')
-            .then(null, console.error.bind(console));
+    });*/
+	
+	System.config({
+packages: {
+app: {
+//format: 'register',
+ main: 'boot',  
+defaultExtension: 'js'
+},
+'node_modules/angular2-google-maps/core': {
+	 main: 'index.js',
+defaultExtension: 'js'
+}
+},
+map: {
+'angular2-google-maps': 'node_modules/angular2-google-maps'
+}
+});
+	
+    System.import('app/boot').then(null, console.error.bind(console));
+	//System.import('app').catch(function(err){ console.error(err); });
 </script>
+
 </html>

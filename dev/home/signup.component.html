@@ -1,0 +1,33 @@
+<div class="thumbox3">
+<div class="header1">
+<div class="hed_left"><a href="javascript:;" class="back_botom"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a></div>
+<div class="hed_mid"><a [routerLink]="['Home']">THE WORK PLACE</a></div>
+<!--<div class="hed_right">
+<div class="mob_icon" id="menu_click">
+			<div class="icon__bar"></div>
+			<div class="icon__bar"></div>
+			<div class="icon__bar"></div>
+		</div>
+</div>-->
+</div>
+
+<div class="sing_up">
+<a href="./api/users/linkedin/{{locationid}}/{{desk}}" class="login_with_linkedIn">Login with Linkedin</a>
+
+<div class="or">or</div>
+<form #registrationForm="ngForm" (ngSubmit)="registerUser(registrationForm.value)" id="registrationForm">
+	<input type="hidden" id="desk" name="desk">
+    <input type="hidden" id="location" name="location">
+	<input type="text"  class="inn1" id="email" [(ngModel)]="email" name="email" placeholder="Email">
+	<input type="password"   class="inn1" id="password" [(ngModel)]="password" name="password" placeholder="Password">
+	<input type="text"   class="inn1" id="name" [(ngModel)]="name" name="name" placeholder="Full Name">
+	<input type="text"   class="inn1" id="industry" [(ngModel)]="industry" name="industry" placeholder="Industry">
+    <button type="submit" class="sub1" [disabled]="!registrationForm.form.valid" id="registrationForm_sub">Sign up</button>
+</form>
+
+<div class="signup_text">By signing up, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy.</a></div>
+
+</div>
+
+
+<div class="clearfix"></div></div>
