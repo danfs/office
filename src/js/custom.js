@@ -15,7 +15,7 @@ $('#myTabs a').click(function (e) {
 
 
 //********************for_mobile_menu_page***************//
-	$('#menu_click').click(function() {
+	/*$('#menu_click').click(function() {
 	  $('.mob_menu').animate({
 		right:'0'
 	  }, 500, function() {
@@ -36,3 +36,4 @@ $('#myTabs a').click(function (e) {
 $('#linkedin_login').click(function() {
 	alert('ssdsd');
 });
+*/

@@ -74,9 +74,10 @@ Home(event) {
 		}
   }
  	ngOnInit(){
-	this.id=this._routeParams.get('id');
-	this.username=decodeURIComponent(this._routeParams.get('name'));
-	this.industry=decodeURIComponent(this._routeParams.get('industry'));
+	
+	this.id=localStorage.getItem('user.id');
+	this.username=decodeURIComponent(localStorage.getItem('user.name'));
+	this.industry=decodeURIComponent(localStorage.getItem('user.industry'));
 	
 	$("#registrationForm2 input").focus(function(){
 	$(this).removeClass('error');

@@ -5,8 +5,6 @@ import {Http, Response} from 'angular2/http';
 import {Injectable, Component } from 'angular2/core';
 import {Router,RouteParams} from 'angular2/router';
 
-declare var Auth0Lock;
-
 @Component({
   selector: 'signup',
   templateUrl: 'dev/home/signup.component.html',
@@ -66,7 +64,12 @@ Home(event) {
 		  var obj = $.parseJSON(response);
 						if(obj.status=="success")
 						{
-							ths._router.navigate(['/SignupNextStep', { id: obj.id, name: $('#name').val(),industry:$('#industry').val(),image:'' }]);
+						localStorage.setItem("user.id", obj.user.id);
+						localStorage.setItem("user.name", obj.user.name);
+						localStorage.setItem("user.industry", obj.user.industry);
+						localStorage.setItem("user.image", obj.user.image)
+						localStorage.setItem("nextloc", obj.nextloc);
+						ths._router.navigate(['/SignupNextStep']);
 						}
 						else if(obj.status=="error")
 						{

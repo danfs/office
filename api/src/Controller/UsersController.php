@@ -27,18 +27,37 @@ class UsersController extends AppController
 	   $this->viewBuilder()->layout('home');
     }
 	
+	
+	
+	public function login()
+    {
+		if( $this->request->is('post')){
+			$countuser=$this->Users->find('all', array('conditions'=>array('OR'=>array('Users.email'=>$this->request->data['email']))));
+			$number = $countuser->count();
+			if($number>0){
+			$results = $countuser->first();
+			//$tester=new DefaultPasswordHasher();
+			//$verify = $tester->check($this->request->data['password'], $results->password);	
+			if(md5($this->request->data['password'])==$results->password){
+				$json = json_encode(array('status' => 'success','act'=>'index','user' =>$results));
+				
+				}else{$json = json_encode(array('status' => 'error','mssg' =>'* Username or password not match...'));}
+			}else{$json = json_encode(array('status' => 'error','mssg' =>'* Username not found match...'));}
+			echo ($json); 
+		exit;
+		}
+		}
 	public function signup()
     {
 		
 		
 		$locationTable = TableRegistry::get('Locations');
 		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
-		
+		if($this->request->data['location']!=''){
 		$location_gets = $locationTable->find('all',array('fields' => array('remain_capacity'), 'conditions' => array('Locations.id' =>$this->request->data['location'])));
 		$location_get=$location_gets->toarray();
 		$seat_remain=$location_get['0']['remain_capacity']-$this->request->data['desk'];
-		
-		
+		}
 		$this->viewBuilder()->layout(false);
 		$userTable = TableRegistry::get('Users');
 		$user_vals = $userTable->find('all', array('fields' => array('email') ,'conditions' => array('Users.email' =>$this->request->data['email'])));
@@ -50,7 +69,7 @@ class UsersController extends AppController
 			$user = $userTable->newEntity();
             $user = $userTable->patchEntity($user, $this->request->data);
             if ($userTable->save($user)) {
-				
+				if($this->request->data['location']!=''){
 						$usertable_sv = $UsersInLocationTable->newEntity();
 						$usertable_sv->user_id = $user->id;
 						$usertable_sv->location_id = $this->request->data['location'];
@@ -60,9 +79,10 @@ class UsersController extends AppController
 						$locationtable_sv->id = $this->request->data['location'];
 						$locationtable_sv->remain_capacity = $seat_remain;
 						$locationTable->save($locationtable_sv);
+						$nextloc='location';
 						//seat_remain
-				
-               $json = json_encode(array('status' => 'success','id' =>$user->id));
+				}else{$nextloc='home';}
+               $json = json_encode(array('status' => 'success','id' =>$user->id,'user'=>$user,'nextloc'=>$nextloc));
 				echo ($json);	
             } else {
                 $json = json_encode(array('status' => 'error','status' =>'error occur'));
@@ -71,6 +91,70 @@ class UsersController extends AppController
 		}
        exit;
     }
+	
+	public function loginLocation($locations_get=NULL,$desk=NULL)
+    {
+		$locationTable = TableRegistry::get('Locations');
+		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+		
+		$location_gets = $locationTable->find('all',array('fields' => array('remain_capacity'), 'conditions' => array('Locations.id' =>$locations_get)));
+		$location_get=$location_gets->toarray();
+		$seat_remain=$location_get['0']['remain_capacity']-$desk;
+		
+		if( $this->request->is('post')){
+			$countuser=$this->Users->find('all', array('conditions'=>array('OR'=>array('Users.email'=>$this->request->data['email']))));
+			$number = $countuser->count();
+			if($number>0){
+			$results = $countuser->first();
+			if(md5($this->request->data['password'])==$results->password){
+						$usertable_sv = $UsersInLocationTable->newEntity();
+						$usertable_sv->user_id = $user->id;
+						$usertable_sv->location_id = $locations_get;
+						$usertable_sv->desks =$desk;
+						$UsersInLocationTable->save($usertable_sv);
+						$locationtable_sv = $locationTable->newEntity();
+						$locationtable_sv->id = $locations_get;
+						$locationtable_sv->remain_capacity = $seat_remain;
+						$locationTable->save($locationtable_sv);
+				
+				
+				$json = json_encode(array('status' => 'success','act'=>'desksave','user' =>$results));
+				echo ($json); 
+				}else{$json = json_encode(array('status' => 'error','mssg' =>'* Username or password not match...'));}
+			}else{$json = json_encode(array('status' => 'error','mssg' =>'* Username not found match...'));}
+		exit;
+		}
+		}
+		
+	public function directLocation($user=NULL,$locations_get=NULL,$desk=NULL)
+    {
+		$locationTable = TableRegistry::get('Locations');
+		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+		
+		$location_gets = $locationTable->find('all',array('fields' => array('remain_capacity'), 'conditions' => array('Locations.id' =>$locations_get)));
+		
+		$countuser=$this->Users->find('all', array('conditions'=>array('OR'=>array('Users.id'=>$user))));
+			$results = $countuser->first();
+		$location_get=$location_gets->toarray();
+		$seat_remain=$location_get['0']['remain_capacity']-$desk;
+		
+		
+						$usertable_sv = $UsersInLocationTable->newEntity();
+						$usertable_sv->user_id = $user;
+						$usertable_sv->location_id = $locations_get;
+						$usertable_sv->desks =$desk;
+						$UsersInLocationTable->save($usertable_sv);
+						$locationtable_sv = $locationTable->newEntity();
+						$locationtable_sv->id = $locations_get;
+						$locationtable_sv->remain_capacity = $seat_remain;
+						$locationTable->save($locationtable_sv);
+				
+				
+				$json = json_encode(array('status' => 'success','act'=>'desksave','user' =>$results));
+				echo ($json);
+		exit;
+		
+		}
 	public function saveContact()
     {
 		$this->viewBuilder()->layout(false);
@@ -98,7 +182,7 @@ class UsersController extends AppController
     }
 
 public function linkedin($location=NULL, $desk=NULL){
-	if($location!='' && $desk!=''){
+	if(!empty($location) && !empty($desk)){
 	$this->request->session()->write(['location' => $location,'desk' => $desk]);
 	}
 	$base_url='http://localhost/angu/';
@@ -167,8 +251,7 @@ public function linkedin($location=NULL, $desk=NULL){
 						$user_vals = $userTable->find('all', array('fields' => array('email') ,'conditions' => array('Users.email' =>$user->emailAddress)));
 						$user_val=$user_vals->toarray();
 						if(count($user_val)>0){
-						$json = json_encode(array('status' => 'error','status' =>'avail'));
-						echo ($json); 
+						$redirect_url=$base_url.'#/signup_next_step?id='.$user_val['0']['id'].'&name='.$user_val['0']['name'].'&industry=""&image='.$user_val['0']['image']; 
 						}else{
 							
 					$locationTable = TableRegistry::get('Locations');
@@ -182,6 +265,7 @@ public function linkedin($location=NULL, $desk=NULL){
 						$user_sv->linkedin_id =$user->id;
 						$user_sv->image = $filename;
 						if ($userTable->save($user_sv)) {
+						if(!empty($location) && !empty($desk)){
 						$usertable_sv = $UsersInLocationTable->newEntity();
 						$usertable_sv->user_id = $user_sv->id;
 						$usertable_sv->location_id = $this->request->session()->read('location');
@@ -194,8 +278,9 @@ public function linkedin($location=NULL, $desk=NULL){
 							
 						$this->request->session()->delete('desk');
 						$this->request->session()->delete('location');
-							
+						}
 						$redirect_url=$base_url.'#/signup_next_step?id='.$user_sv->id.'&name='.$user_sv->name.'&industry=""&image='.$filename;
+						
 						header("location:".$redirect_url);	
 						} else {
 						$json = json_encode(array('status' => 'error','status' =>'error occur'));
@@ -613,14 +698,16 @@ days left</div>
 <div class="thumbox5a">
 <div class="thumbox5a_in">';
 	$user_location_vals = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id'])));
+	$user_location_vals2 = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id']),'order' => array('UsersInLocation.id' => 'desc')));
 		$user_location_val=$user_location_vals->toarray();
+		$user_location_val2=$user_location_vals2->toarray();
 		if(count($user_location_val)>0){
 			
 			
 $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">';
 	  $dss=1;
-        foreach($user_location_val as $usrloc){
+        foreach($user_location_val2 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
 			$user_val=$user_vals->toarray();
 			$usr=$user_val['0'];

@@ -1,24 +1,26 @@
-<div class="thumbox1">
-
-<h1>The Work Place</h1>
-<div class="clear-fix"></div>
-<ul><li>Unite</li><li>Occupy</li><li>Thrive</li></ul>
-
-
-<div class="clear-fix"></div>
-
-<p>Collective office leasing.<br>
-You choose a location and a group of co-members and we'll do the rest.</p>
-
-<div class="clear-fix"></div>
-
-<a href="map.html" class="find_out">Find out more</a>
-
-<div class="clear-fix"></div>
-
-<a href="#" class="find_office">
-	<span class="fa fa-chevron-down"></span> <br>
-Find an office
-</a>
+<div class="thumbox3">
+<div class="header1">
+<div class="hed_left"><a href="javascript:;" class="back_botom"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a></div>
+<div class="hed_mid"><a [routerLink]="['Home']">THE WORK PLACE</a></div>
+<div class="hed_right">
 
 </div>
+</div>
+
+<div class="sing_up">
+<a href="#" class="login_with_linkedIn">Login with Linkedin</a>
+
+<div class="or">or</div>
+<form #loginForm="ngForm" (ngSubmit)="loginUser()" id="loginForm">
+	<input type="text"  class="inn1" id="email" [(ngModel)]="email" name="email" placeholder="Email">
+	<input type="password"   class="inn1" id="password" [(ngModel)]="password" name="password" placeholder="Password">
+    <div class="error_text" style="display:none;">* Username or password not match...</div>
+	<button type="submit" id="login_submit" class="sub1" value="Login">Login</button>
+</form>
+
+<div class="signup_text"><a href="#">Create a new account.</a></div>
+
+</div>
+
+
+<div class="clearfix"></div></div>

@@ -35,7 +35,7 @@ Home(event) {
 	$(document).on('click','#view_lastinsert', function ()
 		{
 			var user=$('#view_lastinsert').attr('rel');
-			routin.navigate(['MapShare',{ id:user}]);
+			routin.navigate(['Mapshare',{ id:user}]);
 	});
 	$(document).on('click','.back_botom', function ()
 		{

@@ -37,9 +37,48 @@ Home(event) {
 		
   }
 	signupbtn() {
+	var rout=this._router;
 			var desk=$('#spinner').val();
 			if(desk>0){
+			
+			var userId=localStorage.getItem("user.id");
+  		if(userId!=null){
+			var url='./api/users/direct_location/'+localStorage.getItem("user.id")+'/'+this._routeParams.get('locationid')+'/'+desk;
+			$.ajax({
+          url:url,
+          type: "POST",
+          data: $("#loginForm").serialize(),
+          beforeSend:function()
+          {
+            $(".thumbox3").css('opacity','0.5').append('<img src="src/img/loading.gif" border="0" class="loadi" style= "left: 48%;position: absolute;top: 25%;" alt="" title="" />')
+          },
+          success: function(response)
+          {
+		   $("#login_submit").removeAttr("disabled");
+		  var obj = $.parseJSON(response);
+						if(obj.status=="success")
+						{
+						localStorage.setItem("user.id", obj.user.id);
+						localStorage.setItem("user.name", obj.user.name);
+						localStorage.setItem("user.industry", obj.user.industry);
+						localStorage.setItem("user.image", obj.user.image);
+						
+						rout.navigate(['/SignUpCongrats', { id: obj.user.id, name: obj.user.name,industry:obj.user.industry,image:obj.user.image }]);
+						
+						}
+						else if(obj.status=="error")
+						{
+						$('.error_text').html(obj.mssg).show();
+						}
+						 $(".thumbox3").css('opacity','1');
+						 $('.loadi').remove();
+            return false;
+            }
+  
+        });
+			}else{
 			this._router.navigate(['Signup',{ locationid:this._routeParams.get('locationid'),desk:desk}]);
+			}
 			}
 			else{
 			alert('please select desk');

@@ -21,5 +21,7 @@ export class HomeComponent implements OnInit {
     event.preventDefault();
     this.router.navigate(['HowItWork']);
   } 
-
+   ngOnInit() {
+//alert(localStorage.getItem("user.name"));
+}
 }
