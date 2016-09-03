@@ -331,7 +331,9 @@ public function linkedin($location=NULL, $desk=NULL){
 
 		
 		$user_location_vals = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location['id'])));
+		$user_location_vals2 = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location['id']),'group' =>'UsersInLocation.user_id'));
 		$user_location_val=$user_location_vals->toarray();
+		$user_location_val2=$user_location_vals2->toarray();
 		if(count($user_location_val)>0){
 			
 			
@@ -339,7 +341,7 @@ public function linkedin($location=NULL, $desk=NULL){
 			
 $html.='<ul>';
 
-	foreach($user_location_val as $usrtbl){
+	foreach($user_location_val2 as $usrtbl){
 		
 		$user_vals = $userTable->find('all', array('fields' => array('email','id','image') ,'conditions' => array('Users.id' =>$usrtbl['user_id'])));
 			$user_val=$user_vals->toarray();
@@ -503,14 +505,16 @@ days left</div>
 <div class="thumbox5a">
 <div class="thumbox5a_in">';
 	$user_location_vals = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id'])));
+	$user_location_vals2 = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id']),'group' =>'UsersInLocation.user_id'));
 		$user_location_val=$user_location_vals->toarray();
+		$user_location_val2=$user_location_vals2->toarray();
 		if(count($user_location_val)>0){
 			
 			
 $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel dis_none" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">';
 	  $dss=1;
-        foreach($user_location_val as $usrloc){
+        foreach($user_location_vals2 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
 			$user_val=$user_vals->toarray();
 			$usr=$user_val['0'];
@@ -540,8 +544,9 @@ $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel dis_no
     </div>';		
 			
 $html.='<ul>';
-if(count($user_location_val)>0){
-	foreach($user_location_val as $usrloc){
+
+if(count($user_location_val2)>0){
+	foreach($user_location_val2 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
 			$user_val=$user_vals->toarray();
 			$usr=$user_val['0'];
@@ -698,9 +703,11 @@ days left</div>
 <div class="thumbox5a">
 <div class="thumbox5a_in">';
 	$user_location_vals = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id'])));
-	$user_location_vals2 = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id']),'order' => array('UsersInLocation.id' => 'desc')));
+	$user_location_vals2 = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id']),'order' => array('UsersInLocation.id' => 'desc'),'group' =>'UsersInLocation.user_id'));
+	$user_location_vals3 = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id']),'group' =>'UsersInLocation.user_id'));
 		$user_location_val=$user_location_vals->toarray();
 		$user_location_val2=$user_location_vals2->toarray();
+		$user_location_val3=$user_location_vals3->toarray();
 		if(count($user_location_val)>0){
 			
 			
@@ -737,8 +744,8 @@ $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel" data-
     </div>';		
 			
 $html.='<ul>';
-if(count($user_location_val)>0){
-	foreach($user_location_val as $usrloc){
+if(count($user_location_val3)>0){
+	foreach($user_location_val3 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
 			$user_val=$user_vals->toarray();
 			$usr=$user_val['0'];

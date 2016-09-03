@@ -1,4 +1,4 @@
-import { Component, OnInit,NgZone } from 'angular2/core';
+import { Component, OnInit } from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {Http, Response} from 'angular2/http';
 import {Injectable, Component } from 'angular2/core';
@@ -6,15 +6,16 @@ import {Router,RouteParams} from 'angular2/router';
 
 
 @Component({
-  selector: 'mapshare',
+  selector: 'testa',
   templateUrl: 'dev/home/mapshare.component.html',
   directives: [ROUTER_DIRECTIVES],
 })
-export class MapshareComponent implements OnInit {
-constructor(private _router: Router,private _routeParams: RouteParams,private zone:NgZone) {}	
+export class TestaComponent implements OnInit {
+constructor(private _router: Router,private _routeParams: RouteParams) {}
+			
   ngOnInit() {
   var ths=this._router
-  var userId=this._routeParams.get('id');
+ var userId=this._routeParams.get('id')
   $.ajax({
 					url:"api/users/getuser",
 					type: "POST",
@@ -56,4 +57,5 @@ Home(event) {
 			event.preventDefault();
 			this.router.navigate(['Home']);
 			}
-}
+
+			

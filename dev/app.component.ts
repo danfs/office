@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 
 
 import {HomeComponent} from './home/home.component';
@@ -41,7 +41,7 @@ enableProdMode();
 <div class="mob_menu">
     <div class="thumbox2">
         <div class="top">
-            <div class="top_left"><a href="index.html">THE WORK PLACE</a>
+            <div class="top_left"><a (click)="go_home($event)">THE WORK PLACE</a>
             </div>
             <div class="top_right"><a href="javascript:;" class="pull-right close11" (click)="menu_close($event)"><i class="fa fa-times" aria-hidden="true"></i></a>
             </div>
@@ -57,6 +57,8 @@ enableProdMode();
                 <li><a (click)="faqopen($event)" routerLinkActive="active">FAQ</a></li>
                 <li><a  (click)="about_us($event)" routerLinkActive="active">About Us</a></li>
                 <li><a  (click)="contact_us($event)" routerLinkActive="active">Contact Us</a></li>
+				<li *ngIf="loginId==null" id='auth_li'><a href="javascript:;" id="login_action">Login</a></li>
+				<li *ngIf="loginId!=null" id='auth_li'><a href="javascript:;" id="logout">Logout</a></li>
             </ul>
             <div class="media_icons">
                 <a href="#"><span class="fa fa-facebook"></span></a>
@@ -83,12 +85,13 @@ enableProdMode();
 
 
 <div class="middle1 cls" id="contact_us_page" style="display:none;">
-
+<form #contactForm="ngForm" (ngSubmit)="contactUser()" id="contactForm">
 <label>Contact Us:</label>
-<input type="text" placeholder="your@email.com" class="inn1">
+<input type="text" id="cotact_email" placeholder="your@email.com" class="inn1">
 <label>Your message:</label>
-<textarea class="text_a1"></textarea>
-<input type="submit" class="sub1" value="Send">
+<textarea class="text_a1" id="cotact_mssg"></textarea>
+<button type="submit" class="sub1" value="Login">Send</button>
+</form>
 
 
 </div>
@@ -123,9 +126,12 @@ enableProdMode();
   ])
   
   
-export class AppComponent{
+export class AppComponent implements OnInit {
 
 constructor(private _router: Router){}
+loginId: string = localStorage.getItem("user.id");
+
+
 
   menu_click(event) {
     
@@ -210,5 +216,94 @@ constructor(private _router: Router){}
 			ths.navigate(['/Map']);
 			
 	  });	  
+	}
+	go_home(){
+	var ths=this._router;
+	$('.mob_menu').animate({
+		right:'-100%'
+	  }, 200, function() {
+			$('.overlay').css("display", "none");
+			$( "body" ).removeClass( "modal-open1" );
+			$("#headerback").hide();
+			$(".cls").hide("slide", { direction: "left" }, 1000);
+			$("#main_head").show();
+			ths.navigate(['/Home']);
+			
+	  });	  
+	}
+	
+	contactUser() {
+	
+	// cotact_email cotact_mssg
+  var ths=this;
+  var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
+  var error='1';
+ 
+ 			if($('#cotact_email').val()==''){
+			$('#cotact_email').addClass("error");
+			 error++;
+			}
+			if($('#cotact_mssg').val()==''){
+			$('#cotact_mssg').addClass("error");
+			 error++;
+			}
+  			if($('#cotact_email').val()!='' && !pattern.test($('#cotact_email').val()))
+        	{
+          	$('#cotact_email').addClass("error");
+		  	error++;
+		  
+        	}else{
+			$('#cotact_email').removeClass("error");
+		}
+	  
+	  if(error=='1'){
+	  $('#cotact_email').val('');
+	  $('#cotact_mssg').val('');
+	  alert('message sucessfully send please wait for reply');
+	  }
+  }
+	//==========//
+	
+	ngOnInit() {
+	var ruot=this._router
+	
+	$('#cotact_email').focus(function(){$('#cotact_email').removeClass("error");});
+	$('#cotact_mssg').focus(function(){$('#cotact_mssg').removeClass("error");});
+	
+	$(document).on('click','#login_action', function (){
+		$('.mob_menu').animate({
+		right:'-100%'
+	  }, 200, function() {
+			$('.overlay').css("display", "none");
+			$( "body" ).removeClass( "modal-open1" );
+			$("#headerback").hide();
+			$(".cls").hide("slide", { direction: "left" }, 1000);
+			$("#main_head").show();
+			ruot.navigate(['/Login']);
+			
+	  });
+	});
+	
+	
+	
+	$(document).on('click','#logout', function (){
+    localStorage.removeItem("user.id");
+	localStorage.removeItem("user.name");
+	localStorage.removeItem("user.industry");
+	localStorage.removeItem("user.image");
+	$('.mob_menu').animate({
+		right:'-100%'
+	  }, 200, function() {
+			$('.overlay').css("display", "none");
+			$( "body" ).removeClass( "modal-open1" );
+			$("#headerback").hide();
+			$(".cls").hide("slide", { direction: "left" }, 1000);
+			$("#main_head").show();
+			$("#auth_li").html('<a routerlinkactive="active" id="login_action">Login</a>');
+			ruot.navigate(['/Login']);
+			
+	  });
+	 	
+	}
 	} 
 }

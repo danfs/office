@@ -74,6 +74,7 @@ private data;
 						localStorage.setItem("user.name", obj.user.name);
 						localStorage.setItem("user.industry", obj.user.industry);
 						localStorage.setItem("user.image", obj.user.image);
+						$("#auth_li").html('<a routerlinkactive="active" id="logout">Logout</a>');
 						if(obj.act=="index"){
 						ths._router.navigate(['/Home']);
 						}else{

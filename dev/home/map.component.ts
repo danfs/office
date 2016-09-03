@@ -117,6 +117,7 @@ function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Re
 	$('#aftertabmarker').attr('rel',marker.id);
 	$('.hidden_marler_value').hide();
 	$('#marker_'+marker.id).show();
+	$('.selected_marker').attr('id',marker.id)
            // infowindow.open(map,marker); // click on marker opens info window 
     });
       
@@ -130,14 +131,17 @@ function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Re
 			
 $(document).on('click','#aftertabmarker', function ()
 		{
-		//alert($(this).attr('rel'));
-		var Ids=$(this).attr('rel');
-		ths.navigate(['/MapPicker', { id: Ids}]);
+		/*var Ids=$(this).attr('rel');
+		$('.selected_marker').attr('id',Ids);
+		//ths.navigate(['/MapPicker', { id: Ids}]);*/
+		$('.selected_marker').trigger('click');
 		});			
 }
-Home(event) {
+
+select_location(event) {
 			event.preventDefault();
-			this.router.navigate(['Home']);
+			//alert(event.currentTarget.id);
+			this._router.navigate(['MapPicker', { id: event.currentTarget.id}]);
 			}
 
 }
