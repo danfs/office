@@ -336,12 +336,13 @@ public function linkedin($location=NULL, $desk=NULL){
 						}
 						
 						$success = $client->Finalize($success);
-						}
 						if(!empty($location) && !empty($desk)){
 						$redirect_url=$base_url.'#/login?id='.$user_sv->id.'&locationid='.$location.'&desk='.$desk;
 						}else{
 							$redirect_url=$base_url.'#/login';
 							}
+						}
+						
 						
 						header("location:".$redirect_url);	
 				 
