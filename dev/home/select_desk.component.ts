@@ -11,34 +11,160 @@ declare var location: any;
   directives: [ROUTER_DIRECTIVES],
 })
 export class SelectDeskComponent implements OnInit {
-constructor(private _router: Router,private _routeParams: RouteParams) {}
+remain = [];
+constructor(private _router: Router,private _routeParams: RouteParams) {
+for (var i = 0; i < this._routeParams.get('remain'); i++) {
+      this.remain[i]=i+1;
+    }
+	}
 private deskremain;
+
 Home(event) {
 			event.preventDefault();
 			this.router.navigate(['Home']);
 			}
 			
   ngOnInit() {
+  var num='';
+  for (var i = 1; i <= this._routeParams.get('remain'); i++) {
+      num=num+'<span>'+i+'</span>';
+    }
+  $('#rotator').html(num);
+  //remain = new Array(this._routeParams.get('remain'));
   
-  
-  var remain=this._routeParams.get('remain');
+  /*var remain=this._routeParams.get('remain');
+  remain = new Array(this._routeParams.get('remain'));
 		$( "#spinner" ).spinner({
       min: 1,
       max: remain,
       step: 1,
       start: 1,
       numberFormat: "C"
-    });
+    });*/
+	
 	$(document).on('click','.back_botom', function ()
 		{
 		parent.history.back();
 		return false;
-	});	
-		
+	});
+var last_num=this._routeParams.get('remain'),			
+var gate = $(window);
+var cog = $('#rotator');
+var digit = cog.find('span');
+var slot = digit.eq(0).height();
+var base = 1.5*slot;
+var output = $('#result');
+var up='';
+
+cog.fadeTo(0,0);
+
+
+	setTimeout(interAction, 50);
+
+
+function interAction() {
+
+	output.text(1);
+
+	cog.scrollTop(base).fadeTo(0,1).mousewheel(function(turn, delta) {
+
+		if (isBusy()) return false;
+
+		delta < 0 ? up = true : up = false;
+
+		newNumber();
+
+		return false;
+	});
+
+	digit.on('touchstart', function(e) {
+
+		var touch = e.originalEvent.touches,
+		begin = touch[0].pageY, swipe;
+
+		digit.on('touchmove', function(e) {
+
+			var contact = e.originalEvent.touches,
+			end = contact[0].pageY,
+			distance = end-begin;
+
+			if (isBusy()) return;
+
+			if (Math.abs(distance) > 30) {
+			swipe = true;
+			distance > 30 ? up = true : up = false;
+			}
+		})
+		.add(gate).one('touchend', function() {
+
+			if (swipe) {
+			swipe = false;
+			newNumber();
+			}
+
+			digit.off('touchmove').add(gate).off('touchend');
+		});
+	})
+	.on('mousedown touchstart', function(e) {
+
+		if (e.which && e.which != 1) return;
+
+		var item = $(this).index();
+
+		if (item == 1 || item == 3) {
+
+		digit.one('mouseup touchend', function() {
+
+			var same = item == $(this).index();
+
+			if (isBusy() || !same) return cancelIt();
+
+			item == 1 ? up = true : up = false;
+
+			newNumber();
+
+			return cancelIt();
+		});
+		}
+
+		return false;
+	});
+}
+
+function isBusy() {
+
+	return cog.is(':animated');
+}
+
+function cancelIt() {
+
+	digit.off('mouseup touchend');
+
+	return false;
+}
+
+function newNumber() {
+
+	var aim = base;
+
+	up ? aim -= slot : aim += slot;
+
+	cog.animate({scrollTop: aim}, 500, function() {
+
+		up ? digit.eq(parseInt(last_num)-1).prependTo(cog) : digit.eq(0).appendTo(cog);
+
+		cog.scrollTop(base);
+
+		digit = cog.find('span');
+
+		output.text(digit.eq(2).text());
+	});
+}
+			
   }
 	signupbtn() {
 	var rout=this._router;
-			var desk=$('#spinner').val();
+			var desk=parseInt($('#result').html());
 			if(desk>0){
 			
 			var userId=localStorage.getItem("user.id");
@@ -83,6 +209,7 @@ Home(event) {
 			else{
 			alert('please select desk');
 			}
+			
 			}		
 
 }
