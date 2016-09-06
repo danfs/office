@@ -1,58 +1,27 @@
-import {Component , OnInit , NgZone} from 'angular2/core';
-import {HTTP_PROVIDERS} from 'angular2/http';
-import {ROUTER_DIRECTIVES , Router} from 'angular2/router';
-
-declare var IN : any;
+import {Component, OnInit} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Http, Response} from 'angular2/http';
+import {Injectable, Component } from 'angular2/core';
+import {Router,RouteParams} from 'angular2/router';
 
 @Component({
-  directives : [ROUTER_DIRECTIVES],
   selector : 'linked',
-  providers : [HTTP_PROVIDERS],
-  templateUrl : 'dev/home/linked.component.html'
+  template : `hi test`,
+  directives: [ROUTER_DIRECTIVES],
 })
 
 export class LinkedComponent implements OnInit{
 
- constructor(private zone : NgZone){
-    this.zone.run(() => {
-        $.proxy(this.OnLinkedInFrameworkLoad, this);
-    });
-}
+constructor(private http:Http, private _router: Router,private _routeParams: RouteParams){}
 
 ngOnInit(){
-    var linkedIn = document.createElement("script");
-    linkedIn.type = "text/javascript";
-    linkedIn.src = "http://platform.linkedin.com/in.js";
-    linkedIn.innerHTML = "\n"+
-        "api_key: 81m7r4v9j6aev7\n" +
-        "authorize: true\n" +
-        "onLoad:"+this.OnLinkedInFrameworkLoad;
-		alert(linkedIn.innerHTML);
-    document.head.appendChild(linkedIn);
+						localStorage.setItem("user.id", this._routeParams.get('id'));
+						localStorage.setItem("user.name", this._routeParams.get('name'));
+						localStorage.setItem("user.industry", this._routeParams.get('industry'));
+						localStorage.setItem("user.image", this._routeParams.get('image'))
+						//localStorage.setItem("nextloc", obj.nextloc);
+						this._router.navigate(['/SignupNextStep']);
 
-    var script = document.createElement("script");
-    script.type = "in/Login";
-    document.body.appendChild(script);
 }
-
-OnLinkedInFrameworkLoad = () => {
-    IN.Event.on(IN, "auth", this.OnLinkedInAuth);
-}
-
-OnLinkedInAuth = () => {
-    IN.API.Profile("me").result(result => this.ShowProfileData);
-}
-
-ShowProfileData(profiles) {
-    console.log(profiles);
-    var member = profiles.values[0];
-    var id=member.id;
-    var firstName=member.firstName;
-    var lastName=member.lastName;
-    var photo=member.pictureUrl;
-    var headline=member.headline;
-
-    //use information captured above
-   }
 
 }

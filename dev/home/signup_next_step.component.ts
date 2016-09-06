@@ -78,6 +78,7 @@ Home(event) {
 	this.id=localStorage.getItem('user.id');
 	this.username=decodeURIComponent(localStorage.getItem('user.name'));
 	this.industry=decodeURIComponent(localStorage.getItem('user.industry'));
+	this.image=decodeURIComponent(localStorage.getItem('user.image'));
 	
 	$("#registrationForm2 input").focus(function(){
 	$(this).removeClass('error');
@@ -89,6 +90,30 @@ Home(event) {
 		parent.history.back();
 		return false;
 	});
+	
+	$.ajax({
+					url:"api/users/getuserdetail",
+					type: "POST",
+					data: ({user:localStorage.getItem('user.id')}),
+					beforeSend:function()
+					{},
+					success: function(response)
+					{
+						var obj = $.parseJSON(response);
+						if(obj.status=="success")
+						{
+						$('#address1').val(obj.address1);
+						$('#address2').val(obj.address2);
+						$('#city').val(obj.city);
+						$('#county').val(obj.county);
+						$('#post_code').val(obj.post_code);
+						$('#country').val(obj.country);
+						$('#phone_number').val(obj.phone_number);
+						}
+						}
+						
+	
+				})
 	}
 	
 

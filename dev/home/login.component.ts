@@ -18,7 +18,18 @@ private data;
   Home(event) {
 			event.preventDefault();
 			this.router.navigate(['Home']);
-			}                                                                                                                        loginUser() {
+			} 
+	
+signup() {
+var locatIds=this._routeParams.get('locationid');
+	  var desk=this._routeParams.get('desk');
+  		if(locatIds!=null){
+this._router.navigate(['Signup',{ locationid:this._routeParams.get('locationid'),desk:this._routeParams.get('desk')}]);
+}else{
+this._router.navigate(['Signup');
+
+}
+}		                                                                                                                       loginUser() {
   var ths=this;
   var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
   var error='1';
@@ -49,7 +60,7 @@ private data;
 	  if(error=='1'){
 	  //$("#login_submit").attr("disabled", "disabled");
 	  var locatIds=this._routeParams.get('locationid');
-	  var desk=this._routeParams.get('locationid');
+	  var desk=this._routeParams.get('desk');
   		if(locatIds!=null){
 		var url='./api/users/login_location/locatIds/desk';
 		}else{
@@ -94,6 +105,9 @@ private data;
 		}
   } 
   ngOnInit() {
+  
+  this.locationid=this._routeParams.get('locationid');
+  this.desk=this._routeParams.get('desk');
   
   $('#loginForm input').focus(function(){
   $(this).removeClass("error");$('.error_text').hide();

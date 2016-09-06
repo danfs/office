@@ -15,17 +15,12 @@ import {MapPickerComponent} from './home/map_picker.component';
 import {SelectDeskComponent} from './home/select_desk.component';
 import {SignUpCongratsComponent} from './home/sign_up_congrats.component';
 import {MapshareComponent} from './home/mapshare.component';
+import {LinkedComponent} from './home/linked.component';
 
 import {ROUTER_DIRECTIVES,Router} from 'angular2/router';
 import {RouteConfig} from 'angular2/router';
 import {enableProdMode} from 'angular2/core';
-import {
-  MapsAPILoader,
-  NoOpMapsAPILoader,
-  MouseEvent,
-  GOOGLE_MAPS_PROVIDERS,
-  GOOGLE_MAPS_DIRECTIVES
-} from 'angular2-google-maps/core';
+import {Location} from 'angular2/router';
 enableProdMode();
 
 
@@ -103,7 +98,7 @@ enableProdMode();
 </div>
 	<router-outlet></router-outlet>
 	`,
-	directives: [HomeComponent,HeaderComponent,HowItWorkComponent,HowItWorkComponent1,HowItWorkComponent2,HowItWorkComponent3,MapComponent,ROUTER_DIRECTIVES,LoginComponent,SignupComponent,SignupNextStepComponent,MapPickerComponent,SelectDeskComponent,SignUpCongratsComponent,MapshareComponent],
+	directives: [HomeComponent,HeaderComponent,HowItWorkComponent,HowItWorkComponent1,HowItWorkComponent2,HowItWorkComponent3,MapComponent,ROUTER_DIRECTIVES,LoginComponent,SignupComponent,SignupNextStepComponent,MapPickerComponent,SelectDeskComponent,SignUpCongratsComponent,MapshareComponent,LinkedComponent],
 })
 
 
@@ -121,6 +116,7 @@ enableProdMode();
    { path: '/select_desk',name:'SelectDesk',  component: SelectDeskComponent },
    { path: '/sign_up_congrats',name:'SignUpCongrats',  component: SignUpCongratsComponent },
    { path: '/mapshare',name:'Mapshare',  component: MapshareComponent },
+   { path: '/linked',name:'Linked',  component: LinkedComponent },
    
    
   ])
@@ -128,7 +124,7 @@ enableProdMode();
   
 export class AppComponent implements OnInit {
 
-constructor(private _router: Router){}
+constructor(private _router: Router,private _location: Location){}
 loginId: string = localStorage.getItem("user.id");
 
 
@@ -147,12 +143,13 @@ loginId: string = localStorage.getItem("user.id");
   menu_close(event) { 
 		$('.mob_menu').animate({
 		right:'-100%'
-	  }, 200, function() {
-			$('.overlay').css("display", "none");
+	  }, 500, function() {
+			
 			$( "body" ).removeClass( "modal-open1" );
 			$("#headerback").hide();
 			$(".cls").hide("slide", { direction: "left" }, 1000);
 			$("#main_head").show();
+			$('.overlay').css("display", "none");
 	  });	  
 	}
 	
@@ -262,6 +259,10 @@ loginId: string = localStorage.getItem("user.id");
 	  alert('message sucessfully send please wait for reply');
 	  }
   }
+  
+   backClicked() {
+        this._location.back();
+    }¢
 	//==========//
 	
 	ngOnInit() {

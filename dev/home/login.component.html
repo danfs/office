@@ -8,7 +8,7 @@
 </div>
 
 <div class="sing_up">
-<a href="#" class="login_with_linkedIn">Login with Linkedin</a>
+<a href="./api/users/linkedin/{{locationid}}/{{desk}}" class="login_with_linkedIn">Login with Linkedin</a>
 
 <div class="or">or</div>
 <form #loginForm="ngForm" (ngSubmit)="loginUser()" id="loginForm">
@@ -18,7 +18,7 @@
 	<button type="submit" id="login_submit" class="sub1" value="Login">Login</button>
 </form>
 
-<div class="signup_text"><a href="#">Create a new account.</a></div>
+<div class="signup_text"><a (click)="signup()">Create a new account.</a></div>
 
 </div>
 
