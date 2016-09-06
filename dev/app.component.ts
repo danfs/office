@@ -157,28 +157,32 @@ loginId: string = localStorage.getItem("user.id");
 	event.preventDefault();
 	$("#headerback").show();
 	$(".cls").hide();
-	$("#office_design_page").show("slide", { direction: "right" }, 1000);
+	//$("#office_design_page").show("slide", { direction: "right" }, 1000);
+	$("#office_design_page").show();
 	}
 	
 	faqopen(event){
 	event.preventDefault();
 	$("#headerback").show();
 	$(".cls").hide();
-	$("#faq_page").show("slide", { direction: "right" }, 1000);
+	//$("#faq_page").show("slide", { direction: "right" }, 1000);
+	$("#faq_page").show();
 	}
 	
 	about_us(event){
 	event.preventDefault();
 	$("#headerback").show();
 	$(".cls").hide();
-	$("#aboutus_page").show("slide", { direction: "right" }, 1000);
+	//$("#aboutus_page").show("slide", { direction: "right" }, 1000);
+	$("#aboutus_page").show();
 	}
 	
 	contact_us(event){
 	event.preventDefault();
 	$("#headerback").show();
 	$(".cls").hide();
-	$("#contact_us_page").show("slide", { direction: "right" }, 1000);
+	//$("#contact_us_page").show("slide", { direction: "right" }, 1000);
+	$("#contact_us_page").show();
 	}
 	
 	header_back(event){
