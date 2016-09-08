@@ -1,5 +1,4 @@
 import { Component, OnInit} from 'angular2/core';
-import {trigger, transition, animate, style, state } from '@angular/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {FORM_DIRECTIVES } from 'angular2/common';
 import {Http, Response} from 'angular2/http';
@@ -12,16 +11,6 @@ declare var location: any;
  // template: `<div class="page">Another page</div>`,
  directives: [ROUTER_DIRECTIVES],
    
-  animations: [
-    trigger('MapPicker', [
-      state('void => *', style({transform: 'translateX(0)', opacity: 1})),
-      transition('void => *', [
-        style({body: 'black'}),
-        animate(1000)
-      ]),
-      transition('* => void', animate(1000, style({transform: 'translateX(100%)', opacity: 0})))
-    ])
-  ]
 })
 export class MapPickerComponent implements OnInit {
 constructor(private _router: Router,private _routeParams: RouteParams) {}
