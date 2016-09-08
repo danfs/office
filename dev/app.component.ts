@@ -96,7 +96,7 @@ enableProdMode();
 
    </div>
 </div>
-	<router-outlet></router-outlet>
+	<router-outlet ></router-outlet>
 	`,
 	directives: [HomeComponent,HeaderComponent,HowItWorkComponent,HowItWorkComponent1,HowItWorkComponent2,HowItWorkComponent3,MapComponent,ROUTER_DIRECTIVES,LoginComponent,SignupComponent,SignupNextStepComponent,MapPickerComponent,SelectDeskComponent,SignUpCongratsComponent,MapshareComponent,LinkedComponent],
 })

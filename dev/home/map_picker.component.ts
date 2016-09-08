@@ -1,14 +1,27 @@
-import { Component, OnInit } from 'angular2/core';
+import { Component, OnInit} from 'angular2/core';
+import {trigger, transition, animate, style, state } from '@angular/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {FORM_DIRECTIVES} from 'angular2/common';
+import {FORM_DIRECTIVES } from 'angular2/common';
 import {Http, Response} from 'angular2/http';
-import {Injectable, Component } from 'angular2/core';
+import {Injectable } from 'angular2/core';
 import {Router,RouteParams} from 'angular2/router';
 declare var location: any;
 @Component({
   selector: 'map_picker',
   templateUrl: 'dev/home/map_picker.component.html',
-  directives: [ROUTER_DIRECTIVES],
+ // template: `<div class="page">Another page</div>`,
+ directives: [ROUTER_DIRECTIVES],
+   
+  animations: [
+    trigger('MapPicker', [
+      state('void => *', style({transform: 'translateX(0)', opacity: 1})),
+      transition('void => *', [
+        style({body: 'black'}),
+        animate(1000)
+      ]),
+      transition('* => void', animate(1000, style({transform: 'translateX(100%)', opacity: 0})))
+    ])
+  ]
 })
 export class MapPickerComponent implements OnInit {
 constructor(private _router: Router,private _routeParams: RouteParams) {}
@@ -19,7 +32,9 @@ Home(event) {
 			}
 			
   ngOnInit() {
-  var locationId=this._routeParams.get('id')
+  var locationId=this._routeParams.get('id');
+  var ths=this._routeParams;
+  $('#disblock').show("slide", { direction: "down" }, 700);
   $.ajax({
 					url:"api/users/getmarkerpicker",
 					type: "POST",
@@ -78,5 +93,8 @@ $(document).on('click','#myCarousel,.amnities,.location11', function ()
 			this._router.navigate(['SelectDesk',{ locationid:this._routeParams.get('id'),remain:remain}]);
 			
 			}		
-
+	backtomap(){
+	$('#disblock').hide("slide", { direction: "down" }, 700);
+	this._router.navigate(['Map']);
+	}
 }

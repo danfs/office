@@ -16,7 +16,6 @@ constructor(private _router: Router) {}
 
   ngOnInit() {
   var markers = [];
-  var ths=this._router
   $.ajax({
 					url:"api/users/tabmarker",
 					type: "POST",
@@ -143,9 +142,6 @@ function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Re
 			
 $(document).on('click','#aftertabmarker', function ()
 		{
-		/*var Ids=$(this).attr('rel');
-		$('.selected_marker').attr('id',Ids);
-		//ths.navigate(['/MapPicker', { id: Ids}]);*/
 		$('.selected_marker').trigger('click');
 		});			
 }
