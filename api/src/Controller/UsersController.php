@@ -378,6 +378,13 @@ public function linkedin($location=NULL, $desk=NULL){
 		if(count($location_val)>0){
 			$html='';
 			foreach($location_val as $ky=>$location){
+				$location_vals = $locationTable->find('all',array('conditions' => array('Locations.id' =>$location['id'])));
+				$location_val=$location_vals->toarray();
+		//pr($location_val['0']['wifi']); exit;
+				$seat_fill=$location_val['0']['capacity']-$location_val['0']['remain_capacity'];
+				$percentace=($seat_fill/$location_val['0']['capacity'])*100;
+				$perc=round($percentace);
+				
 				$html.='<div class="location_in hidden_marler_value" id="marker_'.$location['id'].'" rel="s">
 <div class="col-md-7">
 <div class="place_name">'.$location['name'].'</div>
@@ -421,11 +428,11 @@ $html.='</ul>';
 		}
 $html.='</div>';
 $html.='<div class="col-md-5">
-<a href="map_picker.html"><div class="rate">£280
+<a href="map_picker.html"><div class="rate">£'.$location['desk_price'].'
 <span>/desk</span></div></a>
 <div class="clearfix"></div>
 <div class="p_bar">
-    <div class="p_bar_in" style="width:40%;"></div>
+    <div class="p_bar_in" style="width:'.$perc.'%;"></div>
 </div>
 </div>
 </div>';

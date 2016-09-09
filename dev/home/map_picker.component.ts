@@ -1,29 +1,31 @@
 import { Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {FORM_DIRECTIVES } from 'angular2/common';
 import {Http, Response} from 'angular2/http';
-import {Injectable } from 'angular2/core';
-import {Router,RouteParams} from 'angular2/router';
+import {Router,RouteParams,OnDeactivate,ComponentInstruction} from 'angular2/router';
+import * as Rx from 'rxjs/Rx';
 declare var location: any;
 @Component({
   selector: 'map_picker',
   templateUrl: 'dev/home/map_picker.component.html',
  // template: `<div class="page">Another page</div>`,
  directives: [ROUTER_DIRECTIVES],
+ host: {'class' : 'ng-animate map_pickerContainer'}
    
 })
 export class MapPickerComponent implements OnInit {
 constructor(private _router: Router,private _routeParams: RouteParams) {}
 private deskremain;
-Home(event) {
-			event.preventDefault();
-			this.router.navigate(['Home']);
+backtomap() {
+var th=this;
+$('#disblock').hide("slide", { direction: "down" }, 700,function() {
+			th._router.navigate(['Map']);
+			});
 			}
 			
   ngOnInit() {
   var locationId=this._routeParams.get('id');
-  var ths=this._routeParams;
-  $('#disblock').show("slide", { direction: "down" }, 700);
+  var ths=this._router;
+  //$('#disblock').show("slide", { direction: "down" }, 700);
   $.ajax({
 					url:"api/users/getmarkerpicker",
 					type: "POST",
@@ -51,12 +53,7 @@ Home(event) {
 	
 				})
 				
-$(document).on('click','#aftertabmarker', function ()
-		{
-		//alert($(this).attr('rel'));
-		var Ids=$(this).attr('rel');
-		ths.navigate(['/MapPicker', { id: Ids}]);
-		});		
+	
 
 $(document).on('click','.thumbox5a_in ul li', function ()
 		{
@@ -76,14 +73,23 @@ $(document).on('click','#myCarousel,.amnities,.location11', function ()
 		return false;
 	});	
 		
+  
+  
+  $(document).on('click','#map_slide_down', function (){
+  
+		$('#disblock').hide("slide", { direction: "down" }, 700,function() {
+   		 $('#map_back').trigger('click');
+		 $('#disblock').fadeIn('slow');
+  		});
+		});	
+	$(document).on('click','#map_back', function (){	
+		alert('sss');
+		});
   }
 	selectdesk() {
 			var remain=$('#select_desk').attr('rel');
 			this._router.navigate(['SelectDesk',{ locationid:this._routeParams.get('id'),remain:remain}]);
 			
 			}		
-	backtomap(){
-	$('#disblock').hide("slide", { direction: "down" }, 700);
-	this._router.navigate(['Map']);
-	}
+	
 }

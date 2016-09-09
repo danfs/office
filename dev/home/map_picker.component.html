@@ -1,3 +1,30 @@
+
+<style>
+    .map_picker {
+        height: 50vh;
+        background: #ff4d4d;
+    }
+    
+    :host(.map_pickerContainer) {
+        position: fixed;
+        display: inline-block;
+        width: 100%;
+        -webkit-transition: all ease-in-out 0.5s;
+        transition: all ease-in-out 0.5s;
+    }
+    
+    :host(.map_pickerContainer.ng-enter) {
+        /*transform: rotateZ(90deg)*/
+		top:100vh;
+		
+    }
+    
+    :host(.map_pickerContainer.ng-enter-active) {
+        /*transform: rotateZ(0deg)*/
+		top:0;
+    }
+
+</style>
 <div class="top_right123"><a href="javascript:;" class="pull-right close11" (click)="backtomap()"><i aria-hidden="true" class="fa fa-long-arrow-left"></i></a></div>
 <div class="thumbox5" >
 
@@ -8,7 +35,7 @@
 </div>
 </div>
 <div class="clearfix"></div>
-<div style="display:none;" id="disblock">
+<div id="disblock">
 <div id="ajax_responce">
 <div class="cover_for_loading"></div>
 </div>
