@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <base href="/">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <base href="/office/">
     	<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +9,8 @@
 		<meta name="author" content="">
 		<link rel="icon" href="favicon.ico">
     <title>The Work Place</title>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    
+    <link rel="stylesheet" href="src/css/jquery-ui.min.css">
     <!-- Load libraries -->
 	<script src="src/js/jquery.js"></script>
     <script src="src/js/jquery-migrate-1.4.1.min.js"></script>
@@ -26,9 +26,9 @@
     <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
     <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
     <!--<script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>-->
-    
+ <script src="node_modules/reflect-metadata/Reflect.js"></script>   
 <script src="node_modules/zone.js/dist/zone.js"></script>
-<script src="node_modules/reflect-metadata/Reflect.js"></script>
+
     <script src="node_modules/systemjs/dist/system.src.js"></script>
     <script src="node_modules/rxjs/bundles/Rx.js"></script>
     <script src="node_modules/angular2/bundles/angular2.js"></script>
@@ -49,7 +49,25 @@
 <body>
 <my-app>Loading...</my-app>
 </body>
+<div id="fb-root"></div>
 <script>
+
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '754251111382499',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
     /*System.config({
 		map:{'angular2-google-maps': 'node_modules/angular2-google-maps'},
         packages: {
@@ -74,12 +92,15 @@ defaultExtension: 'js'
 }
 },
 map: {
-'angular2-google-maps': 'node_modules/angular2-google-maps'
+'angular2-google-maps': 'node_modules/angular2-google-maps',
+'@angular/core': 'node_modules/@angular/core/bundles/core.umd.js',
 }
 });
 	
     System.import('app/boot').then(null, console.error.bind(console));
 	//System.import('app').catch(function(err){ console.error(err); });
 </script>
+
+
 
 </html>
