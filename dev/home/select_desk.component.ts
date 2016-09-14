@@ -32,16 +32,6 @@ Home(event) {
   $('#rotator').html(num);
   //remain = new Array(this._routeParams.get('remain'));
   
-  /*var remain=this._routeParams.get('remain');
-  remain = new Array(this._routeParams.get('remain'));
-		$( "#spinner" ).spinner({
-      min: 1,
-      max: remain,
-      step: 1,
-      start: 1,
-      numberFormat: "C"
-    });*/
-	
 	$(document).on('click','.back_botom', function ()
 		{
 		parent.history.back();
@@ -110,7 +100,7 @@ function interAction() {
 		if (e.which && e.which != 1) return;
 
 		var item = $(this).index();
-
+		alert(item);
 		if (item == 1 || item == 3) {
 
 		digit.one('mouseup touchend', function() {
@@ -152,12 +142,19 @@ function newNumber() {
 	cog.animate({scrollTop: aim}, 500, function() {
 
 		up ? digit.eq(parseInt(last_num)-1).prependTo(cog) : digit.eq(0).appendTo(cog);
-
 		cog.scrollTop(base);
 
 		digit = cog.find('span');
-
+		if(parseInt(last_num)>3){
 		output.text(digit.eq(2).text());
+		}else if(parseInt(last_num)>1){
+		output.text(digit.eq(1).text());
+		}else if(parseInt(last_num)==1){
+		output.text('1');
+		}else{
+		output.text('0');
+		}
+		
 	});
 }
 			

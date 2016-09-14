@@ -143,13 +143,82 @@ function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Re
 $(document).on('click','#aftertabmarker', function ()
 		{
 		$('.selected_marker').trigger('click');
-		});			
+		});	
+		
+		
+		$(document).on('click','.thumbox5a_in ul li', function ()
+		{
+		$('.thumbox5').addClass('thumbox5aaa');
+		$('#myCarousel1').slideDown();
+		
+		});	
+		
+$(document).on('click','#myCarousel,.amnities,.location11', function ()
+		{
+		$('#myCarousel1').slideUp();
+		$('.thumbox5').removeClass('thumbox5aaa');
+		});
+		
+		$(document).on('click','#select_desk', function ()
+		{
+			var remain=$('#select_desk').attr('rel');
+			var locationID=$('.selected_marker').attr('id');
+			angu_this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain}]);
+			//alert('sfdsfd');
+			//$('#select_desk_hidden').trigger('click');
+			});	
+			
+			$(document).on('click','#select_desk_hidden', function ()
+		{alert('bjbb');
+			});	
 }
 
 select_location(event) {
 			event.preventDefault();
 			//alert(event.currentTarget.id);
-			this._router.navigate(['MapPicker', { id: event.currentTarget.id}]);
+			//this._router.navigate(['MapPicker', { id: event.currentTarget.id}]);
+			var locationId=event.currentTarget.id;
+			$.ajax({
+					url:"api/users/getmarkerpicker",
+					type: "POST",
+					data: ({locationid:locationId}),
+					beforeSend:function()
+					{},
+					success: function(response)
+					{
+						var obj = $.parseJSON(response);
+						if(obj.status=="success")
+						{
+						var decoded = $("<div/>").html(obj.html).text();
+						$('#ajax_responce').html(decoded);
+						//
+						if(parseInt(obj.remain)>0){
+						$('#select_desk').attr('rel',parseInt(obj.remain));
+						var deskremain=parseInt(obj.remain);
+						}
+						}
+						else if(obj.status=="fail")
+						{
+						
+						}
+					}
+	
+				});
+				
+				$('.ajax_responce11').addClass('show11');
+				$('.top_right123').show();
 			}
+			
+			
+selectdesk() {
+			var remain=$('#select_desk').attr('rel');
+			var locationID=$('.selected_marker').attr('id');
+			this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain}]);
+			
+			}
+backtomap(){
+				$('.ajax_responce11').removeClass('show11');
+				$('.top_right123').hide();
 
+}
 }

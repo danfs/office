@@ -182,6 +182,7 @@ class UsersController extends AppController
     }
 
 public function linkedin($location=NULL, $desk=NULL){
+
 	if(!empty($location) && !empty($desk)){
 	$this->request->session()->write(['location' => $location,'desk' => $desk]);
 	}
@@ -198,6 +199,8 @@ public function linkedin($location=NULL, $desk=NULL){
 		require_once ('Component/LinkedIn/oauth_client.php');
 		
 			if (isset($_GET["oauth_problem"]) && $_GET["oauth_problem"] <> "") {
+				$location=$this->request->session()->read('location');
+				$desk=$this->request->session()->read('desk');
 				// in case if user cancel the login. redirect back to home page.
 				$_SESSION["err_msg"] = $_GET["oauth_problem"];
 				
@@ -226,12 +229,15 @@ public function linkedin($location=NULL, $desk=NULL){
 							'The Callback URL must be '.$client->redirect_uri).' Make sure you enable the '.
 							'necessary permissions to execute the API calls your application needs.';
 				
-				/* API permissions
-				 */
+				/* API permissions*/
 				$client->scope = $linkedinScope;
+				//pr($this->request->session()->read()); exit;
 				if (($success = $client->Initialize())) {
 				  if (($success = $client->Process())) {
 					if (strlen($client->authorization_error)) {
+						
+						$location=$this->request->session()->read('location');
+						$desk=$this->request->session()->read('desk');
 					  $client->error = $client->authorization_error;
 					  $success = false;
 					  if(!empty($location) && !empty($desk)){
@@ -241,20 +247,31 @@ public function linkedin($location=NULL, $desk=NULL){
 							}
 					header("location:".$redirect_url);
 					  //login fail
-					} elseif (strlen($client->access_token)) {
+					}
+					elseif (strlen($client->access_token)) {
 					  $success = $client->CallAPI(
 									'http://api.linkedin.com/v1/people/~:(id,email-address,first-name,last-name,location,picture-urls::(original),picture-url,public-profile-url,formatted-name)', 
 									'GET', array(
 										'format'=>'json'
 									), array('FailOnAccessError'=>true), $user);
-									
-									
-									 
-									 
-									$url=$user->pictureUrls->values['0'];
-									
-									//$dfs=file_get_contents($url);
-									 //pr($dfs);
+												
+						}
+						}
+						
+						$success = $client->Finalize($success);
+					
+						
+						
+						}
+						
+						
+						
+						if ($success) {
+							
+							$location=$this->request->session()->read('location');
+							$desk=$this->request->session()->read('desk');
+							
+									 $url=$user->pictureUrls->values['0'];
 									 $filename=time().".jpg";
 									 $path=ROOT .DS. 'webroot'.DS. 'user_image'.DS ;
 									 $handle = fopen($url, 'r');
@@ -298,7 +315,7 @@ public function linkedin($location=NULL, $desk=NULL){
 						header("location:".$redirect_url);	
 						exit;
 						}
-						else{//for new user
+						else if(isset($user->emailAddress) && $user->emailAddress!=''){//for new user
 							
 					$locationTable = TableRegistry::get('Locations');
 					$UsersInLocationTable = TableRegistry::get('UsersInLocation');
@@ -332,17 +349,20 @@ public function linkedin($location=NULL, $desk=NULL){
 						header("location:".$redirect_url);	
 						}
 						}
-						}
-						}
+						else{
+							exit;
+							}
 						
-						$success = $client->Finalize($success);
-						if(!empty($location) && !empty($desk)){
+						}else{
+							$location=$this->request->session()->read('location');
+							$desk=$this->request->session()->read('desk');
+							
+							if(!empty($location) && !empty($desk)){
 						$redirect_url=$base_url.'#/login?id='.$user_sv->id.'&locationid='.$location.'&desk='.$desk;
 						}else{
 							$redirect_url=$base_url.'#/login';
 							}
-						}
-						
+							}
 						
 						header("location:".$redirect_url);	
 				 
@@ -846,6 +866,19 @@ $html.='</ul>
   public function getuserdetail()
     {
 		
+		$userId=$this->request->data['user'];
+		$userTable = TableRegistry::get('Users');
+		$user_vls = $userTable->find('all',array('conditions' => array('Users.id' =>$userId)));
+		$value_user=$user_vls->toarray();
+		if(count($value_user)>0){
+		$json = json_encode(array('status' => 'success','address1' =>$value_user['0']['address1'],'address2' =>$value_user['0']['address2'],'city' =>$value_user['0']['city'],'county' =>$value_user['0']['county'],'post_code' =>$value_user['0']['post_code'],'country' =>$value_user['0']['country'],'phone_number' =>$value_user['0']['phone_number']));
+		echo $json; exit;
+		}exit;
+	}
+	
+	public function sescheck()
+    {
+		pr($this->request->session()->read('location')); exit;
 		$userId=$this->request->data['user'];
 		$userTable = TableRegistry::get('Users');
 		$user_vls = $userTable->find('all',array('conditions' => array('Users.id' =>$userId)));

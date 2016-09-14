@@ -16,7 +16,6 @@ export class MapPickerComponent implements OnInit {
 constructor(private _router: Router,private _routeParams: RouteParams) {}
 private deskremain;
 backtomap() {
-var th=this;
 $('#disblock').hide("slide", { direction: "down" }, 700,function() {
 			th._router.navigate(['Map']);
 			});

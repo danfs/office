@@ -4,9 +4,7 @@ function isMobile() {
 
 if (!isMobile()) {
  //if its not mobile then start script otherwise turn it off (just place the script    under this comment
- $( document ).ready(function() {
 	new WOW().init();
-})
 }
 $('#myTabs a').click(function (e) {
   e.preventDefault();
@@ -14,26 +12,43 @@ $('#myTabs a').click(function (e) {
 });
 
 
-//********************for_mobile_menu_page***************//
-	/*$('#menu_click').click(function() {
-	  $('.mob_menu').animate({
-		right:'0'
-	  }, 500, function() {
-		  $('.overlay').css("display", "block");
-		  $( "body" ).addClass( "modal-open1" );
-		// Animation complete.
-	  });
+function tweetCurrentPage()
+    { window.open("https://twitter.com/share?url="+escape(window.location.href)+"&text="+document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false; }
+	
+$(document).ready(function(){
+	$(document).on('click','#fb_share_button', function (e){
+e.preventDefault();
+elem = $(this);
+FB.ui(
+{
+method: 'feed',
+name: document.title,
+link: 'http://www.hyperarts.com/',
+picture: 'http://www.hyperarts.com/external-xfbml/share-image.gif',
+caption: elem.data('caption'),
+description: elem.data('desc'),
+message: ''
 });
-	$('.mob_menu .close11,.overlay').click(function() {
-		$('.mob_menu').animate({
-		right:'-100%'
-	  }, 200, function() {
-		  $('.overlay').css("display", "none");
-		   $( "body" ).removeClass( "modal-open1" );
-		// Animation complete.
-	  });	  
-	});	
-$('#linkedin_login').click(function() {
-	alert('ssdsd');
+	});
+	
+	
+	$(document).on('click','#linked_share_button', function (e){
+e.preventDefault();
+elem = $(this);
+window.open("https://www.linkedin.com/shareArticle?mini=true&url="+escape(window.location.href)+"&title="+document.title+"&summary="+elem.data('summary')+"&source="+elem.data('source'), '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;
 });
-*/
+
+
+$(document).on("click",'#whatsapp_share_button',function() {
+
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+
+        var text = $(this).attr("data-summary");
+        var message = encodeURIComponent(text)+" - "+escape(window.location.href);
+        var whatsapp_url = "whatsapp://send?text="+message;
+        window.location.href= whatsapp_url;
+} else {
+    alert("Please share this article in mobile device");
+}
+});
+});
