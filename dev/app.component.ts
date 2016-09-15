@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-
+import {trigger, transition, animate, style, state } from '@angular/core';
 
 import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './home/header.component';
@@ -56,19 +56,19 @@ enableProdMode();
 				<li *ngIf="loginId!=null" id='auth_li'><a href="javascript:;" id="logout">Logout</a></li>
             </ul>
             <div class="media_icons">
-                <a href="javascript:;" id="fb_share_button" data-desc="We're not there yet.we need to fill 3 more spaces in this location before it is vialble and have 3 days to dol it Make this location happen and with people that could help your business by sharing with your friends and colleagues"  data-caption="Add new desk">
+                <a href="javascript:;" id="fb_share_button_home" data-desc="We're not there yet.we need to fill 3 more spaces in this location before it is vialble and have 3 days to dol it Make this location happen and with people that could help your business by sharing with your friends and colleagues"  data-caption="Add new desk">
 <span class="fa fa-facebook" ></span>
 </a>
 
-<a class="tweet" href="javascript:;" onclick="tweetCurrentPage()" alt="Tweet this page"><span class="fa fa-twitter"></span></a>
+<a class="tweet" href="javascript:;" onclick="tweetCurrentPage_home()" alt="Tweet this page"><span class="fa fa-twitter"></span></a>
 
-<a href="javascript:;"><span class="fa fa-instagram"></span></a>
+<a href="javascript:;" id="instagram_share_button_home"><span class="fa fa-instagram"></span></a>
 
 <a id="linked_share_button" href="javascript:;" data-summary="We're not there yet.we need to fill 3 more spaces in this location before it is vialble and have 3 days to dol it Make this location happen and with people that could help your business by sharing with your friends and colleagues"><span class="fa fa-linkedin"></span></a>
 
 <a href="mailto:info@ninenetics.com"><span class="fa fa-envelope"></span></a>
 
-<a id="whatsapp_share_button" href="javascript:;" data-summary="We're not there yet.we need to fill 3 more spaces in this location before it is vialble and have 3 days to dol it Make this location happen and with people that could help your business by sharing with your friends and colleagues"><span class="fa fa-whatsapp"></span></a>
+<a id="whatsapp_share_button_home" href="javascript:;" data-summary="We're not there yet.we need to fill 3 more spaces in this location before it is vialble and have 3 days to dol it Make this location happen and with people that could help your business by sharing with your friends and colleagues"><span class="fa fa-whatsapp"></span></a>
             </div>
 
         </div>
@@ -195,7 +195,8 @@ loginId: string = localStorage.getItem("user.id");
 	header_back(event){
 	$("#headerback").hide();
 	$(".cls").hide();
-	$("#main_head").show("slide", { direction: "right" }, 500);
+	//$("#main_head").show("slide", { direction: "right" }, 500);
+	$("#main_head").show();
 	}
 	how_to_work(){
 	var ths=this._router;
@@ -221,9 +222,10 @@ loginId: string = localStorage.getItem("user.id");
 			$("#headerback").hide();
 			$(".cls").hide("slide", { direction: "left" }, 1000);
 			$("#main_head").show();
-			ths.navigate(['/Map']);
 			
-	  });	  
+			
+	  });	
+	  this._router.navigate(['/Map']);  
 	}
 	go_home(){
 	var ths=this._router;
@@ -273,7 +275,7 @@ loginId: string = localStorage.getItem("user.id");
   
    backClicked() {
         this._location.back();
-    }¢
+    }
 	//==========//
 	
 	ngOnInit() {

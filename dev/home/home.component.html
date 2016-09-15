@@ -1,3 +1,42 @@
+<style>
+    .home {
+        height: 50vh;
+        background: #ff4d4d;
+    }
+    
+    :host(.homeContainer) {
+        position: fixed;
+        display: inline-block;
+        width: 100%;
+        -webkit-transition: all ease-in-out 0.7s;
+        transition: all ease-in-out 0.7s;
+    }
+    
+    :host(.homeContainer.ng-enter) {
+        /*transform: rotateZ(90deg)*/
+		top:100vh;
+		
+    }
+    
+    :host(.homeContainer.ng-enter-active) {
+        /*transform: rotateZ(0deg)*/
+		top:0;
+    }
+
+
+	:host(.homeContainer.ng-leave) {
+        transform: rotateZ(90deg);
+		/*top:0;*/
+		
+    }
+    
+    :host(.homeContainer.ng-leave-active) {
+        transform: rotateZ(0deg);
+		/*top:-100vh;*/
+    }
+
+</style>
+
 <div class="thumbox1">
 
 <h1>The Work Place</h1>

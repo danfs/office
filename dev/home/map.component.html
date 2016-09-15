@@ -1,4 +1,29 @@
+<style>
+    .map {
+        height: 50vh;
+        background: #ff4d4d;
+    }
+    
+    :host(.mapContainer) {
+        position: fixed;
+        display: inline-block;
+        width: 100%;
+        -webkit-transition: all ease-in-out 0.7s;
+        transition: all ease-in-out 0.7s;
+    }
+    
+    :host(.mapContainer.ng-enter) {
+        /*transform: rotateZ(90deg)*/
+		top:100vh;
+		
+    }
+    
+    :host(.mapContainer.ng-enter-active) {
+        /*transform: rotateZ(0deg)*/
+		top:0;
+    }
 
+</style>
 
 <div class="top_right123"><a href="javascript:;" class="pull-right close11" (click)="backtomap()"><i aria-hidden="true" class="fa fa-long-arrow-left"></i></a></div>
 <div class="thumbox5">

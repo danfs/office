@@ -1,15 +1,16 @@
 import { Component, OnInit } from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {FORM_DIRECTIVES} from 'angular2/common';
 import {Http, Response} from 'angular2/http';
 import {Injectable } from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Router,RouteParams,OnDeactivate,ComponentInstruction} from 'angular2/router';
+import * as Rx from 'rxjs/Rx';
 declare var google: any;
 
 @Component({
   selector: 'map',
   templateUrl: 'dev/home/map.component.html',
   directives: [ROUTER_DIRECTIVES],
+  host: {'class' : 'ng-animate mapContainer'}
 })
 export class MapComponent implements OnInit {
 constructor(private _router: Router) {}

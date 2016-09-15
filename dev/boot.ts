@@ -7,7 +7,7 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 import {provide} from 'angular2/core';
 import {
   HashLocationStrategy
-  LocationStrategy,
+  LocationStrategy,ROUTER_BINDINGS,APP_BASE_HREF
 } from 'angular2/router';
 
-bootstrap(AppComponent, [HTTP_PROVIDERS,ROUTER_PROVIDERS,provide(LocationStrategy, {useClass: HashLocationStrategy})]);
+bootstrap(AppComponent, [ROUTER_BINDINGS,HTTP_PROVIDERS,ROUTER_PROVIDERS,provide(LocationStrategy, {useClass: HashLocationStrategy})]);

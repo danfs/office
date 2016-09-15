@@ -689,6 +689,7 @@ text-align:center;}
 transition: all 0.4s ease-in-out;
 }
 .ajax_responce11.show11{ height:calc(100vh - 50px); overflow:auto;}
+.slideUp{top:-100vh;}
 
 @media (max-width:1200px){}
 @media (max-width:1100px){}
