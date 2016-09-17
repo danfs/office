@@ -39,6 +39,9 @@ constructor(private _router: Router) {}
 				})
   
   
+  setTimeout(function(){$('.map_cover_for_loading').fadeOut();
+  
+  
                 // Basic options for a simple Google Map
                 // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
                 var mapOptions = {
@@ -58,7 +61,7 @@ constructor(private _router: Router) {}
 
                 // Get the HTML DOM element that will contain your map 
                 // We are using a div with id="map" seen below in the <body>
-                var mapElement = document.getElementById('map');
+                var mapElement = document.getElementById('map_load');
 
                 // Create the Google Map using our element and options defined above
                 var map = new google.maps.Map(mapElement, mapOptions);
@@ -94,11 +97,9 @@ constructor(private _router: Router) {}
 						}
 					}
 	
-				})
+				});
 				
-			
-			
-			//############### Create Marker Function ##############
+						//############### Create Marker Function ##############
 function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Removable, iconPath,markerId)
 {               
     //new marker
@@ -137,6 +138,10 @@ function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Re
 
 				
             }
+				
+		},500);	
+			
+	
 			
 		
 		
@@ -169,9 +174,7 @@ $(document).on('click','#myCarousel,.amnities,.location11', function ()
 			//$('#select_desk_hidden').trigger('click');
 			});	
 			
-			$(document).on('click','#select_desk_hidden', function ()
-		{alert('bjbb');
-			});	
+				
 }
 
 select_location(event) {

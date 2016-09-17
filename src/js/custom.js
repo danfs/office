@@ -29,7 +29,7 @@ FB.ui(
 method: 'feed',
 name: document.title,
 link: 'http://www.hyperarts.com/',
-picture: 'http://www.hyperarts.com/external-xfbml/share-image.gif',
+picture: baseUrl+'/src/img/twp.jpg',
 caption: elem.data('caption'),
 description: elem.data('desc'),
 message: ''
@@ -67,7 +67,7 @@ FB.ui(
 method: 'feed',
 name: document.title,
 link: baseUrl,
-picture: 'http://www.hyperarts.com/external-xfbml/share-image.gif',
+picture: baseUrl+'/src/img/twp.jpg',
 caption: elem.data('caption'),
 description: elem.data('desc'),
 message: ''
