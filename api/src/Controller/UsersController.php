@@ -564,7 +564,9 @@ $format = 'd/m/Y';
 $startTime = time();
 $endTime = strtotime($location_val['0']['lastdate']);
 $numDays = round(($endTime - $startTime) / $day) + 1;
-$html.=$numDays ;
+
+if($numDays>0){$html.=$numDays ; $book_btn='1';}
+else{$html.='0';$book_btn='0';}
 
 	$html.='</strong>
 	</span>
@@ -648,13 +650,13 @@ $html.='<li class="last_remain">+'.count($user_location_val).'</li>';
 $html.='</ul>
 </div>
 </div>';
-
-			 $json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'remain'=>$location_val['0']['remain_capacity']));
-				echo ($json);  exit;
+		$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'remain'=>$location_val['0']['remain_capacity'],'book_btn' =>$book_btn));
+		echo ($json);  exit;
 				
 		}else{
-			if($html!=''){$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html)));
-				echo ($json);  exit;}
+			if($html!=''){$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'book_btn' =>$book_btn));
+				echo ($json);  exit;
+				}
 			else{
 			$json = json_encode(array('status' => 'fail','type' =>'empty'));
 			}
@@ -762,8 +764,12 @@ $format = 'd/m/Y';
 $startTime = time();
 $endTime = strtotime($location_val['0']['lastdate']);
 $numDays = round(($endTime - $startTime) / $day) + 1;
-$html.=$numDays ;
 
+if($numDays>'0'){
+$html.=$numDays ;
+}else{
+	$html.='0' ;
+	}
 	$html.='</strong>
 	</span>
 days left</div>

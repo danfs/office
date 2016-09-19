@@ -22,6 +22,12 @@ export class HowItWorkComponent1 implements OnInit {
 HowItWork2(event) {
     event.preventDefault();
     this.router.navigate(['HowItWork2']);
+  }
+  Map(event) {
+    event.preventDefault();
+    this.router.navigate(['Map']);
   } 
+  
+  
 
 }

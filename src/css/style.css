@@ -15,7 +15,7 @@ body{ background:#000; width:100%;
 -o-transition: margin-left 0.3s ease-in-out;
 transition: margin-left 0.3s ease-in-out; padding:0; margin:0;}  
 
-.mob_icon {width: 30px;height:23px;margin-top:0px;cursor:pointer; float:right; position:fixed; right:15px; top:15px; z-index: 1;}
+.mob_icon {width: 30px;height:23px;margin-top:0px;cursor:pointer; float:right; position:fixed; right:15px; top:15px; z-index: 20;}
 .icon__bar {background-color: #fff;border-radius: 2px;height: 3px;width: 30px;position: relative;
 -webkit-transition-property: opacity, -webkit-transform;
 transition-property: opacity, transform;
@@ -41,7 +41,7 @@ transform: rotate(45deg);}
 .icon_new .icon__bar:nth-of-type(3){-webkit-transform: rotate(-410deg);
 -ms-transform: rotate(-410deg);
 transform: rotate(-410deg);}
-.mob_menu{right:-100%; width:100%;position:fixed; background:#000; height:100%; overflow:hidden; z-index:14;}
+.mob_menu{right:-100%; width:100%;position:fixed; background:#000; height:100%; overflow:hidden; z-index:22;}
 
 
 
@@ -457,12 +457,17 @@ background:#adb5c3;
 border-radius:4px;}
 .thumbox5 .location .p_bar_in{background:#00c7ac; height:8px;
 border-radius:4px;}
-.thumbox5 .location .place_name{ width:100%;
-font-family:Avenir-Medium;
-font-size:25px;
-color:#092c44;
-letter-spacing:0.52px;
-text-align:left;}
+.thumbox5 .location .place_name{   
+color: #092c44;
+    font-family: Avenir-Medium;
+    font-size: 25px;
+    letter-spacing: 0.52px;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+	}
 .thumbox5 .location ul{ margin-top: 5px; padding:0px; list-style: none;}
 .thumbox5 .location ul li{ width:26px; height:26px; border:1px solid #fff; border-radius: 100%; margin-right: -6px; float:left; overflow: hidden;}
 .thumbox5 .location ul li img{ width:100%; height:auto;}
@@ -692,7 +697,8 @@ transition: all 0.4s ease-in-out;
 }
 .ajax_responce11.show11{ height:calc(100vh - 50px); overflow:auto;}
 .slideUp{top:-100vh;}
-
+.book_desk{background: #f5e8e5 none repeat scroll 0 0; height:100vh;}
+.ht_desk{font-size:25px !important; font-weight:bold;}
 @media (max-width:1200px){}
 @media (max-width:1100px){}
 @media (max-width:1024px){}

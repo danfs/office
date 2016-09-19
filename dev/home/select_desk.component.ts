@@ -26,8 +26,9 @@ Home(event) {
 			
   ngOnInit() {
   var num='';
+  num=num+'<span id="span_'+0+'" class="selectnum ht_desk">Hot Desk *</span>';
   for (var i = 1; i <= this._routeParams.get('remain'); i++) {
-      num=num+'<span>'+i+'</span>';
+      num=num+'<span id="span_'+i+'" class="selectnum">'+i+'</span>';
     }
   $('#rotator').html(num);
   //remain = new Array(this._routeParams.get('remain'));
@@ -100,7 +101,6 @@ function interAction() {
 		if (e.which && e.which != 1) return;
 
 		var item = $(this).index();
-		alert(item);
 		if (item == 1 || item == 3) {
 
 		digit.one('mouseup touchend', function() {
@@ -141,13 +141,18 @@ function newNumber() {
 
 	cog.animate({scrollTop: aim}, 500, function() {
 
-		up ? digit.eq(parseInt(last_num)-1).prependTo(cog) : digit.eq(0).appendTo(cog);
+		up ? digit.eq(parseInt(last_num)).prependTo(cog) : digit.eq(0).appendTo(cog);
 		cog.scrollTop(base);
 
 		digit = cog.find('span');
 		if(parseInt(last_num)>3){
+		$('.selectnum').removeClass('selected_desk');
+		$('#span_'+digit.eq(2).text()).addClass('selected_desk');
 		output.text(digit.eq(2).text());
 		}else if(parseInt(last_num)>1){
+		
+		$('.selectnum').removeClass('selected_desk');
+		$('#span_'+digit.eq(1).text()).addClass('selected_desk');
 		output.text(digit.eq(1).text());
 		}else if(parseInt(last_num)==1){
 		output.text('1');

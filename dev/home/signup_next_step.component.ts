@@ -78,7 +78,10 @@ Home(event) {
 	this.id=localStorage.getItem('user.id');
 	this.username=decodeURIComponent(localStorage.getItem('user.name'));
 	this.industry=decodeURIComponent(localStorage.getItem('user.industry'));
-	this.image=decodeURIComponent(localStorage.getItem('user.image'));
+	var imgs=decodeURIComponent(localStorage.getItem('user.image');
+	if(imgs != "undefined"){
+	this.image = imgs;
+	}else{this.image = 'small_no-image.png';}
 	
 	$("#registrationForm2 input").focus(function(){
 	$(this).removeClass('error');

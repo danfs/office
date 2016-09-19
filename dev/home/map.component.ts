@@ -16,6 +16,7 @@ export class MapComponent implements OnInit {
 constructor(private _router: Router) {}
 
   ngOnInit() {
+  //var angu_this=this;
   var markers = [];
   $.ajax({
 					url:"api/users/tabmarker",
@@ -165,11 +166,12 @@ $(document).on('click','#myCarousel,.amnities,.location11', function ()
 		$('.thumbox5').removeClass('thumbox5aaa');
 		});
 		
-		$(document).on('click','#select_desk', function ()
+		$(document).on('click','#selects_desk', function ()
 		{
-			var remain=$('#select_desk').attr('rel');
-			var locationID=$('.selected_marker').attr('id');
-			angu_this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain}]);
+			//var remain=$('#select_desk').attr('rel');
+//			var locationID=$('.selected_marker').attr('id');
+//			alert(remain);alert(locationID); return false;
+//			angu_this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain}]);
 			//alert('sfdsfd');
 			//$('#select_desk_hidden').trigger('click');
 			});	
@@ -198,12 +200,19 @@ select_location(event) {
 						//
 						if(parseInt(obj.remain)>0){
 						$('#select_desk').attr('rel',parseInt(obj.remain));
+						$('#select_desk').attr('rel2',parseInt(obj.book_btn));
 						var deskremain=parseInt(obj.remain);
+						}
+						
+						if(obj.book_btn){
+						$('#select_desk').prop('disabled', false);
+						}else{
+						//$('#select_desk').prop('disabled', true);
 						}
 						}
 						else if(obj.status=="fail")
 						{
-						
+						//$('#select_desk').prop('disabled', true);
 						}
 					}
 	
@@ -217,8 +226,9 @@ select_location(event) {
 selectdesk() {
 			var remain=$('#select_desk').attr('rel');
 			var locationID=$('.selected_marker').attr('id');
+			if($('#select_desk').attr('rel2')){
 			this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain}]);
-			
+			}
 			}
 backtomap(){
 				$('.ajax_responce11').removeClass('show11');

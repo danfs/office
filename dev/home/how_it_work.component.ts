@@ -39,4 +39,8 @@ HowItWork1(event) {
     event.preventDefault();
     this.router.navigate(['HowItWork1']);
   }
+Map(event) {
+    event.preventDefault();
+    this.router.navigate(['Map']);
+  }
 }

@@ -19,9 +19,9 @@ export class HowItWorkComponent2 implements OnInit {
     this.router.navigate(['Home']);
   }
  
-HowItWork3(event) {
+Map(event) {
     event.preventDefault();
-    this.router.navigate(['HowItWork3']);
+    this.router.navigate(['Map']);
   } 
 
 }

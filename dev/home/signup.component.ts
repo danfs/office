@@ -69,6 +69,7 @@ Home(event) {
 						localStorage.setItem("user.industry", obj.user.industry);
 						localStorage.setItem("user.image", obj.user.image)
 						localStorage.setItem("nextloc", obj.nextloc);
+						$("#auth_li").html('<a routerlinkactive="active" id="logout">Logout</a>');
 						ths._router.navigate(['/SignupNextStep']);
 						}
 						else if(obj.status=="error")
