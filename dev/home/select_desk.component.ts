@@ -26,13 +26,19 @@ Home(event) {
 			
   ngOnInit() {
   var num='';
-  num=num+'<span id="span_'+0+'" class="selectnum ht_desk">Hot Desk *</span>';
-  for (var i = 1; i <= this._routeParams.get('remain'); i++) {
-      num=num+'<span id="span_'+i+'" class="selectnum">'+i+'</span>';
+  var remains_rout=parseInt(this._routeParams.get('remain'));
+  var last_num=this._routeParams.get('remain');
+  var second_last=last_num-1;
+  for (var i = 0; i <= this._routeParams.get('remain'); i++) {
+  var n; i == 0 ? n = second_last : (i == 1 ? n = last_num : n = i-2);
+  if(n=='0'){
+  num=num+'<span id="span_'+0+'" class="selectnum ht_desk selected_desk">Hot Desk *</span>';
+  }else{
+      num=num+'<span id="span_'+n+'" class="selectnum">'+n+'</span>';
+	  }
     }
   $('#rotator').html(num);
-  //remain = new Array(this._routeParams.get('remain'));
-  
+
 	$(document).on('click','.back_botom', function ()
 		{
 		parent.history.back();
@@ -55,10 +61,9 @@ cog.fadeTo(0,0);
 
 function interAction() {
 
-	output.text(1);
+	output.text(0);
 
 	cog.scrollTop(base).fadeTo(0,1).mousewheel(function(turn, delta) {
-
 		if (isBusy()) return false;
 
 		delta < 0 ? up = true : up = false;
@@ -72,6 +77,7 @@ function interAction() {
 
 		var touch = e.originalEvent.touches,
 		begin = touch[0].pageY, swipe;
+		alert();
 
 		digit.on('touchmove', function(e) {
 
@@ -134,7 +140,6 @@ function cancelIt() {
 }
 
 function newNumber() {
-
 	var aim = base;
 
 	up ? aim -= slot : aim += slot;
@@ -145,17 +150,31 @@ function newNumber() {
 		cog.scrollTop(base);
 
 		digit = cog.find('span');
-		if(parseInt(last_num)>3){
-		$('.selectnum').removeClass('selected_desk');
-		$('#span_'+digit.eq(2).text()).addClass('selected_desk');
-		output.text(digit.eq(2).text());
-		}else if(parseInt(last_num)>1){
 		
+		if(parseInt(last_num)>2){
+		var num=parseInt(digit.eq(2).text());
+		if(!$.isNumeric(num)){num='0'}
 		$('.selectnum').removeClass('selected_desk');
-		$('#span_'+digit.eq(1).text()).addClass('selected_desk');
-		output.text(digit.eq(1).text());
+		$('#span_'+num).addClass('selected_desk');
+		if(num=='0'){$('.spinner_bottom').fadeIn();}
+		else{$('.spinner_bottom').fadeOut();}
+		output.text(num);
+		}else if(parseInt(last_num)>1){
+		var num=parseInt(digit.eq(1).text());
+		if(!$.isNumeric(num)){num='0'}
+		if(num=='0'){$('.spinner_bottom').fadeIn();}
+		else{$('.spinner_bottom').fadeOut();}
+		$('.selectnum').removeClass('selected_desk');
+		$('#span_'+num).addClass('selected_desk');
+		output.text(num);
 		}else if(parseInt(last_num)==1){
-		output.text('1');
+		var num=parseInt(digit.eq(0).text());
+		if(!$.isNumeric(num)){num='0'}
+		if(num=='0'){$('.spinner_bottom').fadeIn();}
+		else{$('.spinner_bottom').fadeOut();}
+		$('.selectnum').removeClass('selected_desk');
+		$('#span_'+num).addClass('selected_desk');
+		output.text(num);
 		}else{
 		output.text('0');
 		}

@@ -51,7 +51,7 @@ constructor(private _router: Router) {}
 					disableDefaultUI: true, // a way to quickly hide all controls
 					//mapTypeControl: true,
 					//scaleControl: true,
-					zoomControl: true,
+					zoomControl: false ,
 					zoomControlOptions: {
 					style: google.maps.ZoomControlStyle.LARGE,
 					position: google.maps.ControlPosition.TOP_RIGHT, 
@@ -66,6 +66,12 @@ constructor(private _router: Router) {}
 
                 // Create the Google Map using our element and options defined above
                 var map = new google.maps.Map(mapElement, mapOptions);
+				
+				var zoomControlDiv = document.createElement('div');
+  				var zoomControl = new ZoomControl(zoomControlDiv, map);
+
+  				zoomControlDiv.index = 1;
+  				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(zoomControlDiv);
 
                 // Let's also add a marker while we're at it
                // var marker = new google.maps.Marker({
@@ -99,6 +105,52 @@ constructor(private _router: Router) {}
 					}
 	
 				});
+				
+				
+				function ZoomControl(controlDiv, map) {
+  
+  // Creating divs & styles for custom zoom control
+  controlDiv.style.padding = '0px';
+
+  // Set CSS for the control wrapper
+  var controlWrapper = document.createElement('div');
+  controlWrapper.style.backgroundColor = 'white';
+  controlWrapper.style.borderStyle = 'solid';
+  controlWrapper.style.borderColor = 'gray';
+  controlWrapper.style.borderWidth = '0px';
+  controlWrapper.style.cursor = 'pointer';
+  controlWrapper.style.textAlign = 'center';
+  controlWrapper.style.width = '40px'; 
+  controlWrapper.style.height = '80px';
+  controlDiv.appendChild(controlWrapper);
+  
+  // Set CSS for the zoomIn
+  var zoomInButton = document.createElement('div');
+  zoomInButton.style.width = '40px'; 
+  zoomInButton.style.height = '40px';
+  /* Change this to be the .png image you want to use */
+  zoomInButton.style.background = 'url("src/img/p_map.png") no-repeat center / auto 100%';
+  controlWrapper.appendChild(zoomInButton);
+    
+  // Set CSS for the zoomOut
+  var zoomOutButton = document.createElement('div');
+  zoomOutButton.style.width = '40px'; 
+  zoomOutButton.style.height = '40px';
+  /* Change this to be the .png image you want to use */
+  zoomOutButton.style.background = 'url("src/img/m_map.png") no-repeat center / auto 100%';
+  controlWrapper.appendChild(zoomOutButton);
+
+  // Setup the click event listener - zoomIn
+  google.maps.event.addDomListener(zoomInButton, 'click', function() {
+    map.setZoom(map.getZoom() + 1);
+  });
+    
+  // Setup the click event listener - zoomOut
+  google.maps.event.addDomListener(zoomOutButton, 'click', function() {
+    map.setZoom(map.getZoom() - 1);
+  });  
+    
+}
 				
 						//############### Create Marker Function ##############
 function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Removable, iconPath,markerId)
