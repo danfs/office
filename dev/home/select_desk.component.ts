@@ -61,7 +61,7 @@ cog.fadeTo(0,0);
 
 function interAction() {
 
-	output.text(0);
+	output.text(0.5);
 
 	cog.scrollTop(base).fadeTo(0,1).mousewheel(function(turn, delta) {
 		if (isBusy()) return false;
@@ -158,7 +158,8 @@ function newNumber() {
 		$('#span_'+num).addClass('selected_desk');
 		if(num=='0'){$('.spinner_bottom').fadeIn();}
 		else{$('.spinner_bottom').fadeOut();}
-		output.text(num);
+		if(num=='0'){output.text('0.5');}else{output.text(num);}
+		
 		}else if(parseInt(last_num)>1){
 		var num=parseInt(digit.eq(1).text());
 		if(!$.isNumeric(num)){num='0'}
@@ -166,7 +167,7 @@ function newNumber() {
 		else{$('.spinner_bottom').fadeOut();}
 		$('.selectnum').removeClass('selected_desk');
 		$('#span_'+num).addClass('selected_desk');
-		output.text(num);
+		if(num=='0'){output.text('0.5');}else{output.text(num);}
 		}else if(parseInt(last_num)==1){
 		var num=parseInt(digit.eq(0).text());
 		if(!$.isNumeric(num)){num='0'}
@@ -174,7 +175,7 @@ function newNumber() {
 		else{$('.spinner_bottom').fadeOut();}
 		$('.selectnum').removeClass('selected_desk');
 		$('#span_'+num).addClass('selected_desk');
-		output.text(num);
+		if(num=='0'){output.text('0.5');}else{output.text(num);}
 		}else{
 		output.text('0');
 		}
@@ -185,7 +186,8 @@ function newNumber() {
   }
 	signupbtn() {
 	var rout=this._router;
-			var desk=parseInt($('#result').html());
+			var desk=Number($('#result').text());
+			
 			if(desk>0){
 			
 			var userId=localStorage.getItem("user.id");

@@ -552,7 +552,7 @@ $html.='</ul><div class="clearfix"></div>
 
 <div class="p_bar_up">
     <span>
-    	<strong>'.$location_val['0']['remain_capacity'].'</strong>/ '.$location_val['0']['capacity'].'
+    	<strong>'.floor($location_val['0']['remain_capacity']).'</strong>/ '.$location_val['0']['capacity'].'
     </span> 
 desks avalible
 </div>
