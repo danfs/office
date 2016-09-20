@@ -79,7 +79,7 @@ Home(event) {
 	this.username=decodeURIComponent(localStorage.getItem('user.name'));
 	this.industry=decodeURIComponent(localStorage.getItem('user.industry'));
 	var imgs=decodeURIComponent(localStorage.getItem('user.image');
-	if(imgs != "undefined"){
+	if(imgs != "undefined" !! imgs != null){
 	this.image = imgs;
 	}else{this.image = 'small_no-image.png';}
 	
