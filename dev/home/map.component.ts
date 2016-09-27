@@ -280,6 +280,10 @@ selectdesk() {
 			var locationID=$('.selected_marker').attr('id');
 			if($('#select_desk').attr('rel2')){
 			this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain}]);
+			}else{
+			if(typeof(remain) === "undefined" || remain < 1){
+			alert('fully booked');
+			}else{alert('Booking date over');}
 			}
 			}
 backtomap(){

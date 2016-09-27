@@ -421,7 +421,7 @@ public function linkedin($location=NULL, $desk=NULL){
 			
 			
 $html.='<ul>';
-
+	$u=1;
 	foreach($user_location_val2 as $usrtbl){
 		
 		$user_vals = $userTable->find('all', array('fields' => array('email','id','image') ,'conditions' => array('Users.id' =>$usrtbl['user_id'])));
@@ -434,13 +434,15 @@ $html.='<ul>';
 			
 	}
 	
-    
+    if($u=='5'){break;}
+	$u++;
 	}
 	//if($location['remain_capacity']>0){
 //$html.='<li class="last_remain">+'.$location['remain_capacity'].'</li>';
 	//}
-	if(count($user_location_val)>0){
-$html.='<li class="last_remain">+'.count($user_location_val).'</li>';
+	if(count($user_location_val2)>6){
+	$remain_user=count($user_location_val2)-6;	
+$html.='<li class="last_remain">+'.$remain_user.'</li>';
 	}
 	
 $html.='</ul>';
@@ -528,6 +530,8 @@ if($location_val['0']['access']){$html.='<li><img src="src/img/picker_icon3.png"
 if($location_val['0']['bike']){$html.='<li><img src="src/img/picker_icon4.png" /></li>';}
 if($location_val['0']['kitchen']){$html.='<li><img src="src/img/picker_icon5.png" /></li>';}
 if($location_val['0']['parking']){$html.='<li><img src="src/img/picker_icon6.png" /></li>';}
+if($location_val['0']['remain_capacity']>0){$remain_cap=$location_val['0']['remain_capacity'];}
+else{$remain_cap='0';}
 $html.='</ul><div class="clearfix"></div>
 </div><div class="clearfix"></div>
 </div>
@@ -552,7 +556,7 @@ $html.='</ul><div class="clearfix"></div>
 
 <div class="p_bar_up">
     <span>
-    	<strong>'.floor($location_val['0']['remain_capacity']).'</strong>/ '.$location_val['0']['capacity'].'
+    	<strong>'.floor($remain_cap).'</strong>/ '.$location_val['0']['capacity'].'
     </span> 
 desks avalible
 </div>
@@ -599,8 +603,9 @@ $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel dis_no
 	  $dss=1;
         foreach($user_location_vals2 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
+			
 			$user_val=$user_vals->toarray();
-			$usr=$user_val['0'];
+			$usr=@$user_val[0];
 		if($usr['image']!=''){
 			$user_img='./api/user_image/'.$usr['image'];
 			}else{$user_img='src/img/no-image_small.png';}
@@ -629,23 +634,25 @@ $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel dis_no
 $html.='<ul>';
 
 if(count($user_location_val2)>0){
+	$u='1';
 	foreach($user_location_val2 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
 			$user_val=$user_vals->toarray();
-			$usr=$user_val['0'];
+			$usr=@$user_val['0'];
 		if($usr['image']!=''){
 			$user_img=$usr['image'];
 			}else{$user_img='small_no-image.png';}
 			
    $html.= '<li><img src="./api/user_image/'.$user_img.'"></li>';
-			
+	if($u=='5'){break;}
+	$u++;		
 	}
 	
     
 	}
-
-	if(count($user_location_val)>0){
-$html.='<li class="last_remain">+'.count($user_location_val).'</li>';
+	if(count($user_location_vals2)>6){
+	$remain_user=count($user_location_vals2)-6;
+$html.='<li class="last_remain">+'.$remain_user.'</li>';
 	}
 $html.='</ul>
 </div>
@@ -729,6 +736,8 @@ if($location_val['0']['access']){$html.='<li><img src="src/img/picker_icon3.png"
 if($location_val['0']['bike']){$html.='<li><img src="src/img/picker_icon4.png" /></li>';}
 if($location_val['0']['kitchen']){$html.='<li><img src="src/img/picker_icon5.png" /></li>';}
 if($location_val['0']['parking']){$html.='<li><img src="src/img/picker_icon6.png" /></li>';}
+if($location_val['0']['remain_capacity']>0){$remain_cap=$location_val['0']['remain_capacity'];}
+else{$remain_cap='0';}
 $html.='</ul><div class="clearfix"></div>
 </div><div class="clearfix"></div>
 </div>
@@ -752,7 +761,7 @@ $html.='</ul><div class="clearfix"></div>
 
 <div class="p_bar_up">
     <span>
-    	<strong>'.$location_val['0']['remain_capacity'].'</strong>/ '.$location_val['0']['capacity'].'
+    	<strong>'.floor($remain_cap).'</strong>/ '.$location_val['0']['capacity'].'
     </span> 
 desks avalible
 </div>
@@ -804,7 +813,7 @@ $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel" data-
         foreach($user_location_val2 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
 			$user_val=$user_vals->toarray();
-			$usr=$user_val['0'];
+			$usr=@$user_val['0'];
 		if($usr['image']!=''){
 			$user_img='./api/user_image/'.$usr['image'];
 			}else{$user_img='src/img/no-image_small.png';}
@@ -832,24 +841,30 @@ $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel" data-
 			
 $html.='<ul>';
 if(count($user_location_val3)>0){
+	$u='1';
 	foreach($user_location_val3 as $usrloc){
 			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
 			$user_val=$user_vals->toarray();
-			$usr=$user_val['0'];
+			$usr=@$user_val['0'];
 		if($usr['image']!=''){
 			$user_img=$usr['image'];
 			}else{$user_img='small_no-image.png';}
 			
    $html.= '<li><img src="./api/user_image/'.$user_img.'"></li>';
-			
+		if($u=='5'){break;}
+	$u++;	
 	}
 	
     
 	}
 
-	if(count($user_location_val)>0){
-$html.='<li class="last_remain">+'.count($user_location_val).'</li>';
+
+		
+		if(count($user_location_val3)>6){
+	$remain_user=count($user_location_val3)-6;
+$html.='<li class="last_remain">+'.$remain_user.'</li>';
 	}
+
 $html.='</ul>
 </div>
 </div>';

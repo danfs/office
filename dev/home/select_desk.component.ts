@@ -13,7 +13,11 @@ declare var location: any;
 export class SelectDeskComponent implements OnInit {
 remain = [];
 constructor(private _router: Router,private _routeParams: RouteParams) {
-for (var i = 0; i < this._routeParams.get('remain'); i++) {
+ if(this._routeParams.get('remain')>'20'){
+  var maxdesk='20';
+  }else{var maxdesk=this._routeParams.get('remain');}
+
+for (var i = 0; i < maxdesk; i++) {
       this.remain[i]=i+1;
     }
 	}
@@ -27,9 +31,13 @@ Home(event) {
   ngOnInit() {
   var num='';
   var remains_rout=parseInt(this._routeParams.get('remain'));
-  var last_num=this._routeParams.get('remain');
+  if(this._routeParams.get('remain')>'20'){
+  var maxdesk='20';
+  }else{var maxdesk=this._routeParams.get('remain');}
+  var last_num=maxdesk;
   var second_last=last_num-1;
-  for (var i = 0; i <= this._routeParams.get('remain'); i++) {
+  
+  for (var i = 0; i <= maxdesk; i++) {
   var n; i == 0 ? n = second_last : (i == 1 ? n = last_num : n = i-2);
   if(n=='0'){
   num=num+'<span id="span_'+0+'" class="selectnum ht_desk selected_desk">Hot Desk *</span>';
@@ -44,7 +52,10 @@ Home(event) {
 		parent.history.back();
 		return false;
 	});
-var last_num=this._routeParams.get('remain'),			
+	 if(this._routeParams.get('remain')>'20'){
+  var maxdesk='20';
+  }else{var maxdesk=this._routeParams.get('remain');}
+var last_num=maxdesk,			
 var gate = $(window);
 var cog = $('#rotator');
 var digit = cog.find('span');

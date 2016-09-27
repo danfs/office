@@ -79,7 +79,7 @@ Home(event) {
 	this.username=decodeURIComponent(localStorage.getItem('user.name'));
 	this.industry=decodeURIComponent(localStorage.getItem('user.industry'));
 	var imgs=decodeURIComponent(localStorage.getItem('user.image');
-	if(imgs != "undefined" !! imgs != null){
+	if(imgs != "undefined" || imgs != null){
 	this.image = imgs;
 	}else{this.image = 'small_no-image.png';}
 	
@@ -93,7 +93,6 @@ Home(event) {
 		parent.history.back();
 		return false;
 	});
-	
 	$.ajax({
 					url:"api/users/getuserdetail",
 					type: "POST",
