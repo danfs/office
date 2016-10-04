@@ -230,7 +230,8 @@ Configure::write(array(
 	'Site.email'=>'info@ninenetics.com',
 	'facebookId'=>'208142539579715',
  	'facebookSecret'=>'5c230757655f31964a3d8650cd78b243',
-	'limit.list'=>'9'
+	'limit.list'=>'9',
+	'Site.baseurl'=>'http://localhost/angu/'
 ));
 function e($str)
 {

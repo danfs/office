@@ -13,6 +13,8 @@ declare var location: any;
 export class SelectDeskComponent implements OnInit {
 remain = [];
 constructor(private _router: Router,private _routeParams: RouteParams) {
+
+localStorage.setItem("select_location", this._routeParams.get('location_name'));
  if(this._routeParams.get('remain')>'20'){
   var maxdesk='20';
   }else{var maxdesk=this._routeParams.get('remain');}

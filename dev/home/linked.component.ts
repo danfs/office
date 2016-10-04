@@ -20,6 +20,7 @@ ngOnInit(){
 						localStorage.setItem("user.industry", this._routeParams.get('industry'));
 						localStorage.setItem("user.image", this._routeParams.get('image'))
 						//localStorage.setItem("nextloc", obj.nextloc);
+						$("#auth_li").html('<a routerlinkactive="active" id="logout">Logout</a>');
 						this._router.navigate(['/SignupNextStep']);
 
 }

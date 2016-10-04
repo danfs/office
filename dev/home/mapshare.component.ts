@@ -14,7 +14,7 @@ export class MapshareComponent implements OnInit {
 constructor(private _router: Router,private _routeParams: RouteParams,private zone:NgZone) {}	
   ngOnInit() {
   var ths=this._router
-  var userId=this._routeParams.get('id');
+  var userId=this._routeParams.get('user');
   $.ajax({
 					url:"api/users/getuser",
 					type: "POST",

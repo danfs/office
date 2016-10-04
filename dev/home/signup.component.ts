@@ -76,6 +76,10 @@ Home(event) {
 						{
 						return false;
 						}
+						else if(obj.status=="avail")
+						{
+						alert('Email id already exist');return false;
+						}
             
             }
   

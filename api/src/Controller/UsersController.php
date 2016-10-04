@@ -63,7 +63,7 @@ class UsersController extends AppController
 		$user_vals = $userTable->find('all', array('fields' => array('email') ,'conditions' => array('Users.email' =>$this->request->data['email'])));
 		$user_val=$user_vals->toarray();
 		if(count($user_val)>0){
-			 $json = json_encode(array('status' => 'error','status' =>'avail'));
+			 $json = json_encode(array('status' =>'avail'));
 				echo ($json); 
 		}else{
 			$user = $userTable->newEntity();
@@ -186,7 +186,8 @@ public function linkedin($location=NULL, $desk=NULL){
 	if(!empty($location) && !empty($desk)){
 	$this->request->session()->write(['location' => $location,'desk' => $desk]);
 	}
-	$base_url='http://localhost/angu/';
+	//$base_url='http://localhost/angu/';
+	$base_url=Configure::read('Site.baseurl');
 	$this->viewBuilder()->layout(false);
 	
 	
@@ -440,8 +441,8 @@ $html.='<ul>';
 	//if($location['remain_capacity']>0){
 //$html.='<li class="last_remain">+'.$location['remain_capacity'].'</li>';
 	//}
-	if(count($user_location_val2)>6){
-	$remain_user=count($user_location_val2)-6;	
+	if(count($user_location_val2)>5){
+	$remain_user=count($user_location_val2)-5;	
 $html.='<li class="last_remain">+'.$remain_user.'</li>';
 	}
 	
@@ -650,14 +651,14 @@ if(count($user_location_val2)>0){
 	
     
 	}
-	if(count($user_location_vals2)>6){
-	$remain_user=count($user_location_vals2)-6;
+	if(count($user_location_val2)>5){
+	$remain_user=count($user_location_val2)-5;
 $html.='<li class="last_remain">+'.$remain_user.'</li>';
 	}
 $html.='</ul>
 </div>
 </div>';
-		$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'remain'=>$location_val['0']['remain_capacity'],'book_btn' =>$book_btn));
+		$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'remain'=>$location_val['0']['remain_capacity'],'book_btn' =>$book_btn,'location_name' =>$location_val['0']['name']));
 		echo ($json);  exit;
 				
 		}else{
@@ -860,8 +861,8 @@ if(count($user_location_val3)>0){
 
 
 		
-		if(count($user_location_val3)>6){
-	$remain_user=count($user_location_val3)-6;
+		if(count($user_location_val3)>5){
+	$remain_user=count($user_location_val3)-5;
 $html.='<li class="last_remain">+'.$remain_user.'</li>';
 	}
 
@@ -899,6 +900,8 @@ $html.='</ul>
 	
 	public function sescheck()
     {
+		
+		echo Configure::read('Site.url'); exit;
 		pr($this->request->session()->read('location')); exit;
 		$userId=$this->request->data['user'];
 		$userTable = TableRegistry::get('Users');

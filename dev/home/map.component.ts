@@ -253,6 +253,7 @@ select_location(event) {
 						if(parseInt(obj.remain)>0){
 						$('#select_desk').attr('rel',parseInt(obj.remain));
 						$('#select_desk').attr('rel2',parseInt(obj.book_btn));
+						$('.selected_marker').attr('rel',obj.location_name);
 						var deskremain=parseInt(obj.remain);
 						}
 						
@@ -278,8 +279,9 @@ select_location(event) {
 selectdesk() {
 			var remain=$('#select_desk').attr('rel');
 			var locationID=$('.selected_marker').attr('id');
+			var location_name=$('.selected_marker').attr('rel');
 			if($('#select_desk').attr('rel2')){
-			this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain}]);
+			this._router.navigate(['SelectDesk',{ locationid:locationID,remain:remain,location_name:location_name}]);
 			}else{
 			if(typeof(remain) === "undefined" || remain < 1){
 			alert('fully booked');

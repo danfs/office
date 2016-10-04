@@ -24,7 +24,7 @@
 
 <div class="congratu">
 <div class="congratu_in">
-	<a href="javascript:;" class="pull-right view_lastinsert" id="{{id}}" (click)="view_lastinsert($event)"><i class="fa fa-times" aria-hidden="true"></i></a>
+	<a href="javascript:;" class="pull-right view_lastinsert" id="{{select_location}}" [routerLink]="['Mapshare', { location:select_location,user:id}]"><i class="fa fa-times" aria-hidden="true"></i></a>
     <div class="clearfix"></div>
 <h2>Congratulations!</h2>
 <p>You have reserved a space in the Pearl</p>

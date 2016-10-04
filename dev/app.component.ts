@@ -110,7 +110,7 @@ enableProdMode();
 
 
 @RouteConfig([
-{ path: '/',name:'Home', component:  HomeComponent },
+   { path: '/',name:'Home', component:  HomeComponent },
    { path: '/how_it_work', name:'HowItWork',  component: HowItWorkComponent },
    { path: '/how_it_work1',name:'HowItWork1',  component: HowItWorkComponent1 },
    { path: '/how_it_work2',name:'HowItWork2',  component: HowItWorkComponent2 },
@@ -122,7 +122,7 @@ enableProdMode();
    { path: '/map_picker',name:'MapPicker',  component: MapPickerComponent },
    { path: '/select_desk',name:'SelectDesk',  component: SelectDeskComponent },
    { path: '/sign_up_congrats',name:'SignUpCongrats',  component: SignUpCongratsComponent },
-   { path: '/mapshare',name:'Mapshare',  component: MapshareComponent },
+   { path: '/mapshare/:location/:user/',name:'Mapshare',  component: MapshareComponent },
    { path: '/linked',name:'Linked',  component: LinkedComponent },
    
    
