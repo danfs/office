@@ -372,7 +372,187 @@ public function linkedin($location=NULL, $desk=NULL){
     }
 	
 	
-	
+	public function facebooklogin()
+	{
+		$base_url=Configure::read('Site.baseurl');
+        $this->viewBuilder()->layout(false);
+		if(!empty($_REQUEST['access_token']))
+        {
+            $_REQUEST['fbsr_262221187148336'] = $_REQUEST['access_token'];
+            $urlx = 'https://graph.facebook.com/me?locale=en_US&fields=name,email,first_name,last_name,gender,birthday&access_token='.$_REQUEST['access_token'];
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($ch, CURLOPT_URL, $urlx);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$fbdata2 = curl_exec($ch);
+			curl_close($ch);
+			$fbdata = json_decode($fbdata2);
+			
+			//print_r($fbdata); exit;
+									$time=time();
+									$url='http://graph.facebook.com/'.$fbdata->id.'/picture';
+									 $filename=$time.".jpg";
+									 $path=ROOT .DS. 'webroot'.DS. 'user_image'.DS ;
+									 $handle = fopen($url, 'r');
+									 
+									 
+									 
+									 
+									 
+							
+							$location=$this->request->session()->read('location');
+							$desk=$this->request->session()->read('desk');
+							file_put_contents($path.$filename, $handle);
+									 
+						$userTable = TableRegistry::get('Users');
+						$user_vals = $userTable->find('all', array('conditions' => array('Users.email' =>$fbdata->email)));
+						$user_val=$user_vals->toarray();
+						
+						if(count($user_val)>0){
+							$locationTable = TableRegistry::get('Locations');
+							$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+							$user_sv = $userTable->newEntity();
+						
+						if(!empty($location) && !empty($desk)){
+							
+						$location_gets = $locationTable->find('all',array('fields' => array('remain_capacity'), 'conditions' => array('Locations.id' =>$this->request->session()->read('location'))));
+						$location_get=$location_gets->toarray();
+						$seat_remain=$location_get['0']['remain_capacity']-$this->request->session()->read('desk');
+					
+						$usertable_sv = $UsersInLocationTable->newEntity();
+						$usertable_sv->user_id = $user_val['0']['id'];
+						$usertable_sv->location_id = $this->request->session()->read('location');
+						$usertable_sv->desks =$this->request->session()->read('desk');
+						$UsersInLocationTable->save($usertable_sv);
+						$locationtable_sv = $locationTable->newEntity();
+						$locationtable_sv->id = $this->request->session()->read('location');
+						$locationtable_sv->remain_capacity = $seat_remain;
+						$locationTable->save($locationtable_sv);
+							
+						$this->request->session()->delete('desk');
+						$this->request->session()->delete('location');
+						$redirect_url='';
+						$redirect_url=$base_url.'#/linked?id='.$user_val['0']['id'].'&name='.$user_val['0']['name'].'&industry='.$user_val['0']['industry'].'&image='.$user_val['0']['image'];
+						}//location empty condition
+						else{//echo 'bye';
+						$redirect_url='';
+							$redirect_url=$base_url.'#/linked?id='.$user_val['0']['id'].'&name='.$user_val['0']['name'].'&industry='.$user_val['0']['industry'].'&image='.$user_val['0']['image'];
+						}
+						//echo $redirect_url; exit;
+						header("location:".$redirect_url);	
+						exit;
+						}
+						else if(isset($fbdata->email) && $fbdata->email!=''){//for new user
+							
+					$locationTable = TableRegistry::get('Locations');
+					$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+					$location_gets = $locationTable->find('all',array('fields' => array('remain_capacity'), 'conditions' => array('Locations.id' =>$this->request->session()->read('location'))));
+					$location_get=$location_gets->toarray();
+					$seat_remain=$location_get['0']['remain_capacity']-$this->request->session()->read('desk');
+						$user_sv = $userTable->newEntity();
+						$user_sv->name = $fbdata->name;
+						$user_sv->email = $fbdata->email;
+						$user_sv->linkedin_id =$fbdata->id;
+						$user_sv->image = $filename;
+						if ($userTable->save($user_sv)) {
+						if(!empty($location) && !empty($desk)){
+						$usertable_sv = $UsersInLocationTable->newEntity();
+						$usertable_sv->user_id = $user_sv->id;
+						$usertable_sv->location_id = $this->request->session()->read('location');
+						$usertable_sv->desks =$this->request->session()->read('desk');
+						$UsersInLocationTable->save($usertable_sv);
+						$locationtable_sv = $locationTable->newEntity();
+						$locationtable_sv->id = $this->request->session()->read('location');
+						$locationtable_sv->remain_capacity = $seat_remain;
+						$locationTable->save($locationtable_sv);
+							
+						$this->request->session()->delete('desk');
+						$this->request->session()->delete('location');
+						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$fbdata->name.'&industry=""&image='.$filename;
+						}else{
+						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$fbdata->name.'&industry=""&image='.$filename;
+						}
+						
+						header("location:".$redirect_url);	
+						}
+						}
+						else{
+							exit;
+							}
+						
+						
+			exit;
+			$this->request->data['User']['facebook_id'] = $fbdata->id;
+            $this->request->data['User']['email'] = $fbdata->email;
+            $this->request->data['User']['first_name']  = $fbdata->first_name;
+			$this->request->data['User']['last_name']  = $fbdata->last_name;
+			$this->request->data['User']['role_id'] = 2;
+			$this->request->data['User']['is_active'] = 0;
+			$this->request->data['User']['deactivate_flag']=1;
+		    $user = $this->User->find('first',array('conditions'=>array('User.email'=>$fbdata->email)));
+			$user_find = $this->User->find('count',array('conditions'=>array('User.email'=>$fbdata->email)));
+			
+			if($user_find>0)
+            {
+				$this->User->id = $user['User']['id'];
+				$this->User->saveField('facebook_id',$fbdata->id);
+				$this->User->saveField('is_active','1');
+				if($user['User']['deactivate_flag']==1)
+				{
+					$this->redirect('/'); 
+				}
+				else
+				{
+					$userDetail = $this->User->find('first',array('conditions'=>array('User.email'=>$fbdata->email)));
+					$this->Session->write('Auth',$userDetail);
+					$this->redirect(array('controller'=>'users','action'=>'my_profile')); 
+				}
+            }
+			else
+			{
+				$this->request->data['User']['is_active'] = 1;
+				if($this->User->save($this->request->data))
+				{
+					$userDetail = $this->User->find('first',array('conditions'=>array('User.facebook_id'=>$fbdata->id)));
+					$this->Session->write('User.id',$userDetail['User']['id']);
+					$this->Session->write('Auth',$userDetail);
+					$this->redirect(array('controller'=>'users','action'=>'my_profile')); 
+				}
+			}
+        }
+        else
+        {
+            $this->redirect('/'); 
+            exit(); 
+        }
+    }
+	public function fbLogin(){
+		//$base_url=Configure::read('Site.baseurl');
+//		$redirect_url=$base_url.'#/login';
+//		header("location:".$redirect_url);	
+//		exit;	
+		
+		//echo "vicky";exit;
+		$this->viewBuilder()->layout(false);
+			echo '<script language="javascript" type="text/javascript">
+			
+			var url = document.location.href.split("#");
+			var siteurl1 = "'.Configure::read('Site.baseurl').'";
+		
+			if(url[1].length>150)
+			{
+				window.opener.location.href = siteurl1+"api/users/facebooklogin?"+url[1];
+				self.close();
+			}
+			else
+			{
+				//window.opener.location.href = url[0];
+				self.close();
+			}
+			</script>'; 
+			exit;
+	}
 	public function getmarker()
     {
 		$locationTable = TableRegistry::get('Locations');
@@ -674,16 +854,243 @@ $html.='</ul>
 			echo ($json);exit;
 		exit;
 	}
+public function getsharepage()
+    {
+		$locationTable = TableRegistry::get('Locations');
+		$userTable = TableRegistry::get('Users');
+		$imageTable = TableRegistry::get('LocationImages');
+		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+		
+		
+		$userId=$this->request->data['user'];
+		$location_name=urldecode($this->request->data['location_name']);
+		
+		$user_lo_vls = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.user_id' =>$userId,'Locations.name' => $location_name),'limit'=>1))->hydrate(false)->join(array(
+        'table' => 'locations',
+        'alias' => 'Locations',
+        'type' => 'LEFT',
+        'conditions' => array('Locations.id = UsersInLocation.location_id')
+    ));
+		$value_user=$user_lo_vls->toarray();
+		$locationId=$value_user['0']['location_id'];
+
+		//$locationId=$this->request->data['locationid'];
+		
+		$location_vals = $locationTable->find('all',array('conditions' => array('Locations.id' =>$locationId)));
+		$location_val=$location_vals->toarray();
+		//pr($location_val['0']['wifi']); exit;
+		$seat_fill=$location_val['0']['capacity']-$location_val['0']['remain_capacity'];
+		$percentace=($seat_fill/$location_val['0']['capacity'])*100;
+		$perc=round($percentace);
+		
+		if(count($location_val)>0){
+			$html='';
+			
+			    $html='<!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide picker_top_carousel" data-ride="carousel" data-interval="false">
+      <div class="carousel-inner" role="listbox">';
+	  	$image_vals = $imageTable->find('all',array('conditions' => array('LocationImages.locationid' =>$locationId)));
+		$image_val=$image_vals->toarray();
+		if(count($image_val)>0){
+			$imgact='1';
+			foreach($image_val as $imgval){
+				if($imgact=='1'){$imact=' active';}
+				else{$imact='';}
+		 	$html.='<div class="item '.$imact.'" style="background:url(src/img/location_image/'.$imgval['name'].') no-repeat center / cover;"></div>';	
+			$imgact++;
+			}
+		}else{
+	  
+        $html.='<div class="item active" style="background:url(src/img/no-image.png) no-repeat center / cover;"></div>';
+		}
+		
+        $html.='
+      </div>
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div><!-- /.carousel -->';
+	
+	$html.='
+<div class="amnities">
+<div class="amnities_in">
+<ul>';
+if($location_val['0']['wifi']){$html.='<li><img src="src/img/picker_icon1.png" /></li>';}
+if($location_val['0']['shower']){$html.='<li><img src="src/img/picker_icon2.png" /></li>';}
+if($location_val['0']['access']){$html.='<li><img src="src/img/picker_icon3.png" /></li>';}
+if($location_val['0']['bike']){$html.='<li><img src="src/img/picker_icon4.png" /></li>';}
+if($location_val['0']['kitchen']){$html.='<li><img src="src/img/picker_icon5.png" /></li>';}
+if($location_val['0']['parking']){$html.='<li><img src="src/img/picker_icon6.png" /></li>';}
+if($location_val['0']['remain_capacity']>0){$remain_cap=$location_val['0']['remain_capacity'];}
+else{$remain_cap='0';}
+$html.='</ul><div class="clearfix"></div>
+</div><div class="clearfix"></div>
+</div>
+
+
+<div class="location location11">
+<div class="location_in">
+<div class="col-md-7">
+<div class="place_name">'.$location_val['0']['name'].'</div>
+<div class="clearfix"></div>
+</div>
+
+<div class="col-md-5">
+<div class="rate">£'.$location_val['0']['desk_price'].'
+<span>/desk</span></div>
+<div class="clearfix"></div>
+
+</div>
+
+<div class="clearfix"></div>
+
+
+<div class="p_bar_up">
+    <span>
+    	<strong>'.floor($remain_cap).'</strong>/ '.$location_val['0']['capacity'].'
+    </span> 
+desks avalible
+</div>
+<div class="p_bar_up p_bar_up1">
+	<span>
+	<strong>';
+$day = 86400;
+$format = 'd/m/Y';
+$startTime = time();
+$endTime = strtotime($location_val['0']['lastdate']);
+$numDays = round(($endTime - $startTime) / $day) + 1;
+
+if($numDays>0){$html.=$numDays ; $book_btn='1';}
+else{$html.='0';$book_btn='0';}
+
+	$html.='</strong>
+	</span>
+days left</div>
+
+
+<div class="col-md-12">
+    <div class="p_bar">
+	
+    <div class="p_bar_in" style="width:'.$perc.'%;"></div>
+    </div>
+</div>
+
+</div>
+</div>
+
+
+
+<div class="thumbox5a">
+<div class="thumbox5a_in">';
+	$user_location_vals = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id'])));
+	$user_location_vals2 = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.location_id' =>$location_val['0']['id']),'group' =>'UsersInLocation.user_id'));
+		$user_location_val=$user_location_vals->toarray();
+		$user_location_val2=$user_location_vals2->toarray();
+		if(count($user_location_val)>0){
+			
+			
+$html.='<div id="myCarousel1" class="carousel slide picker_image_carousel dis_none" data-ride="carousel" data-interval="false">
+      <div class="carousel-inner" role="listbox">';
+	  $dss=1;
+        foreach($user_location_vals2 as $usrloc){
+			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
+			
+			$user_val=$user_vals->toarray();
+			$usr=@$user_val[0];
+		if($usr['image']!=''){
+			$user_img='./api/user_image/'.$usr['image'];
+			}else{$user_img='src/img/no-image_small.png';}
+			if($dss=='1'){$uimact=' active';}
+				else{$uimact='';}
+				
+				if($usr['industry']!=''){$usr_indus=$usr['industry'];}else{$usr_indus='&nbsp;';}
+        $html.='<div class="item '.$uimact.'">
+            <div class="image"><img src="'.$user_img.'"></div>
+            <div class="name">'.$usr['name'].'</div><div class="position">'.$usr_indus.'</div>
+        </div>';
+		$dss++;
+		}
+		
+        
+      $html.='</div><a class="left carousel-control" href="#myCarousel1" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel1" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>';		
+			
+$html.='<ul>';
+
+if(count($user_location_val2)>0){
+	$u='1';
+	foreach($user_location_val2 as $usrloc){
+			$user_vals = $userTable->find('all', array('fields' => array('email','name','industry','id','image') ,'conditions' => array('Users.id' =>$usrloc['user_id'])));
+			$user_val=$user_vals->toarray();
+			$usr=@$user_val['0'];
+		if($usr['image']!=''){
+			$user_img=$usr['image'];
+			}else{$user_img='small_no-image.png';}
+			
+   $html.= '<li><img src="./api/user_image/'.$user_img.'"></li>';
+	if($u=='5'){break;}
+	$u++;		
+	}
+	
+    
+	}
+	if(count($user_location_val2)>5){
+	$remain_user=count($user_location_val2)-5;
+$html.='<li class="last_remain">+'.$remain_user.'</li>';
+	}
+$html.='</ul>
+</div>
+</div>';
+		$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'remain'=>$location_val['0']['remain_capacity'],'book_btn' =>$book_btn,'location_name' =>$location_val['0']['name']));
+		echo ($json);  exit;
+				
+		}else{
+			if($html!=''){$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'book_btn' =>$book_btn));
+				echo ($json);  exit;
+				}
+			else{
+			$json = json_encode(array('status' => 'fail','type' =>'empty'));
+			}
+			echo ($json);exit;
+			}
+		}else{$json = json_encode(array('status' => 'fail','type' =>'empty'));}
+			echo ($json);exit;
+		exit;
+	}
 	
 public function getuser()
     {
 
 		$userId=$this->request->data['user'];
+		$location_name=urldecode($this->request->data['location_name']);
 		$locationTable = TableRegistry::get('Locations');
 		$userTable = TableRegistry::get('Users');
 		$imageTable = TableRegistry::get('LocationImages');
 		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+		if($location_name==''){
 		$user_lo_vls = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.user_id' =>$userId),'order' => array('UsersInLocation.id' => 'desc'),'limit'=>1));
+		}else{
+		$user_lo_vls = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.user_id' =>$userId,'Locations.name' => $location_name),'limit'=>1))->hydrate(false)->join(array(
+        'table' => 'locations',
+        'alias' => 'Locations',
+        'type' => 'LEFT',
+        'conditions' => array('Locations.id = UsersInLocation.location_id')
+    ));
+		}
+		
 		$value_user=$user_lo_vls->toarray();
 		$locationId=$value_user['0']['location_id'];
 		$location_vals = $locationTable->find('all',array('conditions' => array('Locations.id' =>$locationId)));
@@ -900,6 +1307,21 @@ $html.='</ul>
 	
 	public function sescheck()
     {
+		$locationTable = TableRegistry::get('Locations');
+		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+		$userTable = TableRegistry::get('Users');
+		//$user_vls = $userTable->find('all',array('conditions' => array('Users.id' =>'11')))
+		$user_vls = $UsersInLocationTable->find('all',array('conditions' => array('UsersInLocation.user_id' =>'11','Locations.name' => 'World Trade Park'),'limit'=>1))->hydrate(false)->join(array(
+        'table' => 'locations',
+        'alias' => 'Locations',
+        'type' => 'LEFT',
+        'conditions' => array('Locations.id = UsersInLocation.location_id')
+    ));
+		$value_user=$user_vls->toarray();
+		pr($value_user); exit;
+		
+		//if(count($value_user)>0){
+		
 		
 		echo Configure::read('Site.url'); exit;
 		pr($this->request->session()->read('location')); exit;

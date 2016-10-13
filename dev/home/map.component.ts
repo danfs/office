@@ -255,8 +255,10 @@ select_location(event) {
 						$('#select_desk').attr('rel2',parseInt(obj.book_btn));
 						$('.selected_marker').attr('rel',obj.location_name);
 						var deskremain=parseInt(obj.remain);
+						$('#select_desk').removeClass('office_end');
+						}else{
+						$('#select_desk').addClass('office_end');
 						}
-						
 						if(obj.book_btn){
 						$('#select_desk').prop('disabled', false);
 						}else{

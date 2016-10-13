@@ -15,10 +15,11 @@ constructor(private _router: Router,private _routeParams: RouteParams,private zo
   ngOnInit() {
   var ths=this._router
   var userId=this._routeParams.get('user');
+  var location=this._routeParams.get('location');
   $.ajax({
 					url:"api/users/getuser",
 					type: "POST",
-					data: ({user:userId}),
+					data: ({user:userId,location_name:location}),
 					beforeSend:function()
 					{},
 					success: function(response)

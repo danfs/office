@@ -536,6 +536,20 @@ box-shadow:0px 1px 3px 0px rgba(0,0,0,0);}
     letter-spacing: 0px;
     text-align: center;
 }
+.thumbox5 .office_end {
+    background: #d8d8d8;
+    width: calc(100% - 40px);
+    max-width: 400px;
+    display: inline-block;
+    padding: 14px 0;
+    border-radius: 5px;
+    margin: 20px 0; 
+    font-family: Avenir-Medium;
+    font-size: 20px;
+    color: #ffffff;
+    letter-spacing: 0px;
+    text-align: center;
+}
 
 .mobile_menu{ width:100%; list-style: none; padding:0px;}
 .mobile_menu li{font-family:Avenir-Medium;

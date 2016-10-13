@@ -16,6 +16,7 @@ import {SelectDeskComponent} from './home/select_desk.component';
 import {SignUpCongratsComponent} from './home/sign_up_congrats.component';
 import {MapshareComponent} from './home/mapshare.component';
 import {LinkedComponent} from './home/linked.component';
+import {MapShareComponent} from './home/map_share.component';
 
 import {ROUTER_DIRECTIVES,Router} from 'angular2/router';
 import {RouteConfig} from 'angular2/router';
@@ -52,6 +53,7 @@ enableProdMode();
                 <li><a (click)="faqopen($event)" routerLinkActive="active">FAQ</a></li>
                 <li><a  (click)="about_us($event)" routerLinkActive="active">About Us</a></li>
                 <li><a  (click)="contact_us($event)" routerLinkActive="active">Contact Us</a></li>
+				<li *ngIf="loginId==null"><a href="javascript:;" (click)="fblogin($event)">FB Login</a></li>
 				<li *ngIf="loginId==null" id='auth_li'><a href="javascript:;" id="login_action">Login</a></li>
 				<li *ngIf="loginId!=null" id='auth_li'><a href="javascript:;" id="logout">Logout</a></li>
             </ul>
@@ -105,7 +107,7 @@ enableProdMode();
 </div>
 	<router-outlet ></router-outlet>
 	`,
-	directives: [HomeComponent,HeaderComponent,HowItWorkComponent,HowItWorkComponent1,HowItWorkComponent2,HowItWorkComponent3,MapComponent,ROUTER_DIRECTIVES,LoginComponent,SignupComponent,SignupNextStepComponent,MapPickerComponent,SelectDeskComponent,SignUpCongratsComponent,MapshareComponent,LinkedComponent],
+	directives: [HomeComponent,HeaderComponent,HowItWorkComponent,HowItWorkComponent1,HowItWorkComponent2,HowItWorkComponent3,MapComponent,ROUTER_DIRECTIVES,LoginComponent,SignupComponent,SignupNextStepComponent,MapPickerComponent,SelectDeskComponent,SignUpCongratsComponent,MapshareComponent,LinkedComponent,MapShareComponent],
 })
 
 
@@ -124,6 +126,7 @@ enableProdMode();
    { path: '/sign_up_congrats',name:'SignUpCongrats',  component: SignUpCongratsComponent },
    { path: '/mapshare/:location/:user/',name:'Mapshare',  component: MapshareComponent },
    { path: '/linked',name:'Linked',  component: LinkedComponent },
+   { path: '/map_share/:location/:user/',name:'MapShare',  component: MapShareComponent },
    
    
   ])
@@ -276,6 +279,13 @@ loginId: string = localStorage.getItem("user.id");
    backClicked() {
         this._location.back();
     }
+	
+	fblogin(event){
+	var siteurl = 'http://localhost/angu/';
+    var fbid = '754251111382499';
+    var fbsecret = 'a33652f01dc1d2b38407496ea8e2711f';
+	window.open('https://www.facebook.com/dialog/permissions.request?app_id='+fbid+'&display=popup&next='+siteurl+'api/users/fb_login/?back='+siteurl+'api/users/facebooklogin?true&response_type=token&fbconnect=1&perms=email,user_about_me,user_photos,user_videos,user_birthday,publish_stream','fbauth','height=350px,width=700px,top=200px,left=200px');
+	}
 	//==========//
 	
 	ngOnInit() {
