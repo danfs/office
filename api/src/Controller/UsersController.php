@@ -1292,6 +1292,37 @@ $html.='</ul>
 			echo ($json);exit;
 		exit;
 	}
+public function getremainingdetails()
+    {
+
+		$location_name=urldecode($this->request->data['location']);
+		$locationTable = TableRegistry::get('Locations');
+		$userTable = TableRegistry::get('Users');
+		$imageTable = TableRegistry::get('LocationImages');
+		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+		$location_vals = $locationTable->find('all',array('conditions' => array('Locations.name' =>$location_name)));
+		$location_val=$location_vals->toarray();
+		
+				if(count($location_val)>0){
+				$day = 86400;
+				$format = 'd/m/Y';
+				$startTime = time();
+				$endTime = strtotime($location_val['0']['lastdate']);
+				$numDays = round(($endTime - $startTime) / $day) + 1;
+				
+				if($numDays>0){$days=$numDays;}else{$days='0';}
+				if($remain>0){$remainval=$remain;}else{$remainval='0';}
+
+			$html ="...we need to fill ".$remainval." more spaces in this location before it is vialble and have ".$days." days to dol it";
+			 $json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html)));
+				echo ($json);  exit;
+			}else{
+				$html ="...we need to fill 0 more spaces in this location before it is vialble and have 0 days to dol it";
+				$json = json_encode(array('status' => 'fail','html' =>htmlspecialchars($html)));}
+			echo ($json);exit;
+		exit;
+	}	
+
   public function getuserdetail()
     {
 		

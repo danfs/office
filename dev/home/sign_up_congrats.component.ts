@@ -46,6 +46,29 @@ Home(event) {
 		parent.history.back();
 		return false;
 	});
+	$.ajax({
+					url:"api/users/getremainingdetails",
+					type: "POST",
+					data: ({location:localStorage.getItem('select_location')}),
+					beforeSend:function()
+					{},
+					success: function(response)
+					{
+						var obj = $.parseJSON(response);
+						if(obj.status=="success")
+						{
+						var decoded = $("<div/>").html(obj.html).text();
+						$('#status_report').html(decoded);
+						
+						}
+						else if(obj.status=="fail")
+						{
+						var decoded = $("<div/>").html(obj.html).text();
+						$('#status_report').html(decoded);
+						}
+					}
+	
+				});
 	}
 
 }
