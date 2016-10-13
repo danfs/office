@@ -1300,9 +1300,10 @@ public function getremainingdetails()
 		$userTable = TableRegistry::get('Users');
 		$imageTable = TableRegistry::get('LocationImages');
 		$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+	
 		$location_vals = $locationTable->find('all',array('conditions' => array('Locations.name' =>$location_name)));
 		$location_val=$location_vals->toarray();
-		
+		$remain=$location_val['0']['remain_capacity'];
 				if(count($location_val)>0){
 				$day = 86400;
 				$format = 'd/m/Y';
