@@ -1314,11 +1314,11 @@ public function getremainingdetails()
 				if($numDays>0){$days=$numDays;}else{$days='0';}
 				if($remain>0){$remainval=$remain;}else{$remainval='0';}
 
-			$html ="...we need to fill ".$remainval." more spaces in this location before it is vialble and have ".$days." days to dol it";
+			$html ="we need to fill ".$remainval." more spaces in this location before it is vialble and have ".$days." days to do it";
 			 $json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html)));
 				echo ($json);  exit;
 			}else{
-				$html ="...we need to fill 0 more spaces in this location before it is vialble and have 0 days to dol it";
+				$html ="we need to fill 0 more spaces in this location before it is vialble and have 0 days to do it";
 				$json = json_encode(array('status' => 'fail','html' =>htmlspecialchars($html)));}
 			echo ($json);exit;
 		exit;
