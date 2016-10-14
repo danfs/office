@@ -585,6 +585,8 @@ public function linkedin($location=NULL, $desk=NULL){
 				$seat_fill=$location_val['0']['capacity']-$location_val['0']['remain_capacity'];
 				$percentace=($seat_fill/$location_val['0']['capacity'])*100;
 				$perc=round($percentace);
+				if($perc >= 100){$perc=100;}
+				
 				
 				$html.='<div class="location_in hidden_marler_value" id="marker_'.$location['id'].'" rel="s">
 <div class="col-md-7">
@@ -666,6 +668,7 @@ public function getmarkerpicker()
 		$seat_fill=$location_val['0']['capacity']-$location_val['0']['remain_capacity'];
 		$percentace=($seat_fill/$location_val['0']['capacity'])*100;
 		$perc=round($percentace);
+				if($perc >= 100){$perc=100;}
 		
 		if(count($location_val)>0){
 			$html='';
@@ -882,6 +885,7 @@ public function getsharepage()
 		$seat_fill=$location_val['0']['capacity']-$location_val['0']['remain_capacity'];
 		$percentace=($seat_fill/$location_val['0']['capacity'])*100;
 		$perc=round($percentace);
+				if($perc >= 100){$perc=100;}
 		
 		if(count($location_val)>0){
 			$html='';
@@ -1099,6 +1103,7 @@ public function getuser()
 		$seat_fill=$location_val['0']['capacity']-$location_val['0']['remain_capacity'];
 		$percentace=($seat_fill/$location_val['0']['capacity'])*100;
 		$perc=round($percentace);
+				if($perc >= 100){$perc=100;}
 		
 		if(count($location_val)>0){
 			$html='';
