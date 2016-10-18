@@ -1318,8 +1318,11 @@ public function getremainingdetails()
 				
 				if($numDays>0){$days=$numDays;}else{$days='0';}
 				if($remain>0){$remainval=$remain;}else{$remainval='0';}
-
+			if($remain>0){
 			$html ="we need to fill ".$remainval." more spaces in this location before it is vialble and have ".$days." days to do it";
+			}else{
+				$html ="This was the last space in the ".$location_val['0']['name']."! We'll be in touch soon.";
+				}
 			 $json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html)));
 				echo ($json);  exit;
 			}else{
