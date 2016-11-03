@@ -47,7 +47,7 @@ constructor(private _router: Router) {}
                 // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
                 var mapOptions = {
                     zoom: 13,
-                    center: new google.maps.LatLng(26.8531, 75.7981), // New York
+                    //center: new google.maps.LatLng(26.8531, 75.7981), // New York
 					disableDefaultUI: true, // a way to quickly hide all controls
 					//mapTypeControl: true,
 					//scaleControl: true,
