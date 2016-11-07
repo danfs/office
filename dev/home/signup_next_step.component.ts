@@ -78,8 +78,10 @@ Home(event) {
 	this.id=localStorage.getItem('user.id');
 	this.username=decodeURIComponent(localStorage.getItem('user.name'));
 	this.industry=decodeURIComponent(localStorage.getItem('user.industry')).replace('""', '-');
-	var imgs=decodeURIComponent(localStorage.getItem('user.image');
-	if(imgs != "undefined" || imgs != null){
+	
+	var imgs=decodeURIComponent(localStorage.getItem('user.image'));
+	
+	if($.trim(imgs) !="undefined" || imgs != null !! imgs != ''){
 	this.image = imgs;
 	}else{this.image = 'small_no-image.png';}
 	

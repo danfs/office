@@ -67,7 +67,11 @@ Home(event) {
 						localStorage.setItem("user.id", obj.user.id);
 						localStorage.setItem("user.name", obj.user.name);
 						localStorage.setItem("user.industry", obj.user.industry);
-						localStorage.setItem("user.image", obj.user.image)
+						if (typeof obj.user.image !== "undefined") {
+						localStorage.setItem("user.image", obj.user.image);
+						}else{
+						localStorage.setItem("user.image", '');
+						}
 						localStorage.setItem("nextloc", obj.nextloc);
 						$("#auth_li").html('<a routerlinkactive="active" id="logout">Logout</a>');
 						ths._router.navigate(['/SignupNextStep']);
