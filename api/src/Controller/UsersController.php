@@ -25,6 +25,7 @@ class UsersController extends AppController
     {
        $this->set('title_for_layout','City:Risat Chauffeurs');
 	   $this->viewBuilder()->layout('home');
+	   echo 'hi'; exit;
     }
 	
 	

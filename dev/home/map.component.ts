@@ -45,9 +45,11 @@ constructor(private _router: Router) {}
   
                 // Basic options for a simple Google Map
                 // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+				
+				var bounds = new google.maps.LatLngBounds();
                 var mapOptions = {
                     zoom: 13,
-                    //center: new google.maps.LatLng(26.8531, 75.7981), // New York
+                    center: new google.maps.LatLng(26.8531, 75.7981), // New York
 					disableDefaultUI: true, // a way to quickly hide all controls
 					//mapTypeControl: true,
 					//scaleControl: true,
@@ -97,6 +99,7 @@ constructor(private _router: Router) {}
                   			//create_marker(point, false, false, false, false, false, "http://PATH-TO-YOUR-WEBSITE-ICON/icons/pin_blue.png");
 							create_marker(point, title, false, false, false, false,false,id);
 							 });
+							 map.fitBounds(bounds);
 						}
 						else if(obj.status=="fail")
 						{
@@ -166,7 +169,7 @@ function create_marker(MapPos, MapTitle, MapDesc,  InfoOpenDefault, DragAble, Re
 		id: markerId
     });
 	
-	
+	bounds.extend(marker.position);
     
     //add click listner to save marker button        
     google.maps.event.addListener(marker, 'click', function() {
