@@ -53,7 +53,6 @@ enableProdMode();
                 <li><a (click)="faqopen($event)" routerLinkActive="active">FAQ</a></li>
                 <li><a  (click)="about_us($event)" routerLinkActive="active">About Us</a></li>
                 <li><a  (click)="contact_us($event)" routerLinkActive="active">Contact Us</a></li>
-				<li *ngIf="loginId==null"><a href="javascript:;" (click)="fblogin($event)">FB Login</a></li>
 				<li *ngIf="loginId==null" id='auth_li'><a href="javascript:;" id="login_action">Login</a></li>
 				<li *ngIf="loginId!=null" id='auth_li'><a href="javascript:;" id="logout">Logout</a></li>
             </ul>
