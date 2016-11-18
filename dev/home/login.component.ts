@@ -105,13 +105,20 @@ this._router.navigate(['Signup');
 		}
   } 
   ngOnInit() {
-  
+  if(this._routeParams.get('locationid')==null){this.locationid_div='0';}
+  else{this.locationid_div='1';}
   this.locationid=this._routeParams.get('locationid');
   this.desk=this._routeParams.get('desk');
   
   $('#loginForm input').focus(function(){
   $(this).removeClass("error");$('.error_text').hide();
   });
+  
+  $(document).on('click','.back_botom', function ()
+		{
+		parent.history.back();
+		return false;
+	});
   }
 			
 

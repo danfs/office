@@ -634,7 +634,7 @@ $html.='</ul>';
 		}
 $html.='</div>';
 $html.='<div class="col-md-5">
-<a href="map_picker.html"><div class="rate">£'.$location['desk_price'].'
+<a href="javascript:;"><div class="rate">£'.$location['desk_price'].'
 <span>/desk</span></div></a>
 <div class="clearfix"></div>
 <div class="p_bar">
@@ -755,7 +755,7 @@ $endTime = strtotime($location_val['0']['lastdate']);
 $numDays = round(($endTime - $startTime) / $day) + 1;
 
 if($numDays>0){$html.=$numDays ; $book_btn='1';}
-else{$html.='0';$book_btn='0';}
+else{$html.='0';$book_btn='1';}
 
 	$html.='</strong>
 	</span>
@@ -781,7 +781,6 @@ days left</div>
 		$user_location_val=$user_location_vals->toarray();
 		$user_location_val2=$user_location_vals2->toarray();
 		if(count($user_location_val)>0){
-			
 			
 $html.='<div id="myCarousel1" class="carousel slide picker_image_carousel dis_none" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">';
@@ -846,7 +845,7 @@ $html.='</ul>
 		echo ($json);  exit;
 				
 		}else{
-			if($html!=''){$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'book_btn' =>$book_btn));
+			if($html!=''){$json = json_encode(array('status' => 'success','html' =>htmlspecialchars($html),'remain'=>$location_val['0']['remain_capacity'],'book_btn' =>$book_btn,'location_name' =>$location_val['0']['name']));
 				echo ($json);  exit;
 				}
 			else{

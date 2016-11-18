@@ -23,6 +23,7 @@ Home(event) {
   var phonepattern  = /^[a-zA-Z0-9\-_]{10,11}$/;
 		
   var error='1';
+  var lck_stion=localStorage.getItem('select_location');
   $("#registrationForm2 input:text").each(function()
 			{
 				if(this.value=='')
@@ -58,7 +59,11 @@ Home(event) {
 		  var obj = $.parseJSON(response);
 						if(obj.status=="success")
 						{
+							if(lck_stion!=null){
 							ths._router.navigate(['/SignUpCongrats', { id: obj.id, name: obj.name,industry:obj.industry,image:obj.image }]);
+							}else{
+							ths._router.navigate(['/Home']);
+							}
 						}
 						else if(obj.status=="error")
 						{
@@ -75,13 +80,14 @@ Home(event) {
   }
  	ngOnInit(){
 	
+	
+	
 	this.id=localStorage.getItem('user.id');
 	this.username=decodeURIComponent(localStorage.getItem('user.name'));
 	this.industry=decodeURIComponent(localStorage.getItem('user.industry')).replace('""', '-');
 	
 	var imgs=decodeURIComponent(localStorage.getItem('user.image'));
-	
-	if($.trim(imgs) !="undefined" || imgs != null !! imgs != ''){
+	if($.trim(imgs) !="undefined" && imgs != null && imgs != ''){
 	this.image = imgs;
 	}else{this.image = 'small_no-image.png';}
 	

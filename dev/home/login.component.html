@@ -8,7 +8,8 @@
 </div>
 
 <div class="sing_up">
-<a href="./api/users/linkedin/{{locationid}}/{{desk}}" class="login_with_linkedIn">Login with Linkedin</a>
+<a *ngIf="locationid_div==1" href="./api/users/linkedin/{{locationid}}/{{desk}}" class="login_with_linkedIn">Login with Linkedin</a>
+<a *ngIf="locationid_div==0" href="./api/users/linkedin/" class="login_with_linkedIn">Login with Linkedin</a>
 
 <div class="or">or</div>
 <form #loginForm="ngForm" (ngSubmit)="loginUser()" id="loginForm">
