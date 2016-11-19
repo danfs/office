@@ -17,6 +17,7 @@ import {SignUpCongratsComponent} from './home/sign_up_congrats.component';
 import {MapshareComponent} from './home/mapshare.component';
 import {LinkedComponent} from './home/linked.component';
 import {MapShareComponent} from './home/map_share.component';
+import {LocationComponent} from './home/location.component';
 
 import {ROUTER_DIRECTIVES,Router} from 'angular2/router';
 import {RouteConfig} from 'angular2/router';
@@ -106,7 +107,7 @@ enableProdMode();
 </div>
 	<router-outlet ></router-outlet>
 	`,
-	directives: [HomeComponent,HeaderComponent,HowItWorkComponent,HowItWorkComponent1,HowItWorkComponent2,HowItWorkComponent3,MapComponent,ROUTER_DIRECTIVES,LoginComponent,SignupComponent,SignupNextStepComponent,MapPickerComponent,SelectDeskComponent,SignUpCongratsComponent,MapshareComponent,LinkedComponent,MapShareComponent],
+	directives: [HomeComponent,HeaderComponent,HowItWorkComponent,HowItWorkComponent1,HowItWorkComponent2,HowItWorkComponent3,MapComponent,ROUTER_DIRECTIVES,LoginComponent,SignupComponent,SignupNextStepComponent,MapPickerComponent,SelectDeskComponent,SignUpCongratsComponent,MapshareComponent,LinkedComponent,MapShareComponent,LocationComponent],
 })
 
 
@@ -126,6 +127,7 @@ enableProdMode();
    { path: '/mapshare/:location/:user/',name:'Mapshare',  component: MapshareComponent },
    { path: '/linked',name:'Linked',  component: LinkedComponent },
    { path: '/map_share/:location/:user/',name:'MapShare',  component: MapShareComponent },
+   { path: '/location/:locationname/:locationid/',name:'Location',  component: LocationComponent },
    
    
   ])

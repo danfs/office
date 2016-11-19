@@ -238,6 +238,9 @@ select_location(event) {
 			event.preventDefault();
 			//alert(event.currentTarget.id);
 			//this._router.navigate(['MapPicker', { id: event.currentTarget.id}]);
+			var url=window.location.href;
+			var new_text = url.split('#');
+			
 			var locationId=event.currentTarget.id;
 			$.ajax({
 					url:"api/users/getmarkerpicker",
@@ -250,6 +253,9 @@ select_location(event) {
 						var obj = $.parseJSON(response);
 						if(obj.status=="success")
 						{
+						var link_url="location/"+obj.location_name+"/"+locationId;
+						var texturl=new_text[0]+'#/'+link_url;
+						window.history.pushState("object or string", "Title", texturl); 
 						var decoded = $("<div/>").html(obj.html).text();
 						$('#ajax_responce').html(decoded);
 						//
@@ -298,6 +304,10 @@ selectdesk() {
 backtomap(){
 				$('.ajax_responce11').removeClass('show11');
 				$('.top_right123').hide();
+						var url=window.location.href;
+						var new_text=url.split('#');
+						var texturl=new_text[0]+'#/map';
+						window.history.pushState("object or string", "Title", texturl); 
 
 }
 }
