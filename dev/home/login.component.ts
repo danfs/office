@@ -13,8 +13,11 @@ import {Router,RouteParams} from 'angular2/router';
 })
 export class LoginComponent implements OnInit {
 private data;
+
+
  
  constructor(private http:Http, private _router: Router,private _routeParams: RouteParams) {}
+ 
   Home(event) {
 			event.preventDefault();
 			this.router.navigate(['Home']);
@@ -31,6 +34,7 @@ this._router.navigate(['Signup');
 }
 }		                                                                                                                       loginUser() {
   var ths=this;
+  
   var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
   var error='1';
    $("#loginForm input:text").each(function()
@@ -105,7 +109,8 @@ this._router.navigate(['Signup');
 		}
   } 
   ngOnInit() {
-  if(this._routeParams.get('locationid')==null){this.locationid_div='0';}
+  $('#hidehref').hide();
+  if(this._routeParams.get('locationid')==null){this.locationid_div='0'; localStorage.removeItem("select_location");}
   else{this.locationid_div='1';}
   this.locationid=this._routeParams.get('locationid');
   this.desk=this._routeParams.get('desk');

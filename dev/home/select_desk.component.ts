@@ -15,9 +15,9 @@ remain = [];
 constructor(private _router: Router,private _routeParams: RouteParams) {
 
 localStorage.setItem("select_location", this._routeParams.get('location_name'));
- if(this._routeParams.get('remain')>'20'){
+ if(Number(this._routeParams.get('remain'))>'20'){
   var maxdesk='20';
-  }else{var maxdesk=this._routeParams.get('remain');}
+  }else{var maxdesk=Number(this._routeParams.get('remain'));}
 
 for (var i = 0; i < maxdesk; i++) {
       this.remain[i]=i+1;
@@ -32,10 +32,11 @@ Home(event) {
 			
   ngOnInit() {
   var num='';
-  var remains_rout=parseInt(this._routeParams.get('remain'));
-  if(this._routeParams.get('remain')>'20'){
+  var remains_rout=Number(this._routeParams.get('remain'));
+ 
+  if(remains_rout > '20'){
   var maxdesk='20';
-  }else{var maxdesk=this._routeParams.get('remain');}
+  }else{var maxdesk=remains_rout}
   var last_num=maxdesk;
   var second_last=last_num-1;
   
@@ -54,9 +55,9 @@ Home(event) {
 		parent.history.back();
 		return false;
 	});
-	 if(this._routeParams.get('remain')>'20'){
+	 if(Number(this._routeParams.get('remain'))>'20'){
   var maxdesk='20';
-  }else{var maxdesk=this._routeParams.get('remain');}
+  }else{var maxdesk=Number(this._routeParams.get('remain'));}
 var last_num=maxdesk,			
 var gate = $(window);
 var cog = $('#rotator');
@@ -90,7 +91,6 @@ function interAction() {
 
 		var touch = e.originalEvent.touches,
 		begin = touch[0].pageY, swipe;
-		alert();
 
 		digit.on('touchmove', function(e) {
 
@@ -159,13 +159,13 @@ function newNumber() {
 
 	cog.animate({scrollTop: aim}, 500, function() {
 
-		up ? digit.eq(parseInt(last_num)).prependTo(cog) : digit.eq(0).appendTo(cog);
+		up ? digit.eq(Number(last_num)).prependTo(cog) : digit.eq(0).appendTo(cog);
 		cog.scrollTop(base);
 
 		digit = cog.find('span');
 		
-		if(parseInt(last_num)>2){
-		var num=parseInt(digit.eq(2).text());
+		if(Number(last_num)>2){
+		var num=Number(digit.eq(2).text());
 		if(!$.isNumeric(num)){num='0'}
 		$('.selectnum').removeClass('selected_desk');
 		$('#span_'+num).addClass('selected_desk');
@@ -173,16 +173,16 @@ function newNumber() {
 		else{$('.spinner_bottom').fadeOut();}
 		if(num=='0'){output.text('0.5');}else{output.text(num);}
 		
-		}else if(parseInt(last_num)>1){
-		var num=parseInt(digit.eq(1).text());
+		}else if(Number(last_num)>1){
+		var num=Number(digit.eq(1).text());
 		if(!$.isNumeric(num)){num='0'}
 		if(num=='0'){$('.spinner_bottom').fadeIn();}
 		else{$('.spinner_bottom').fadeOut();}
 		$('.selectnum').removeClass('selected_desk');
 		$('#span_'+num).addClass('selected_desk');
 		if(num=='0'){output.text('0.5');}else{output.text(num);}
-		}else if(parseInt(last_num)==1){
-		var num=parseInt(digit.eq(0).text());
+		}else if(Number(last_num)==1){
+		var num=Number(digit.eq(0).text());
 		if(!$.isNumeric(num)){num='0'}
 		if(num=='0'){$('.spinner_bottom').fadeIn();}
 		else{$('.spinner_bottom').fadeOut();}

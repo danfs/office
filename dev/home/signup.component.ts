@@ -91,10 +91,14 @@ Home(event) {
 		}else{return false;}
   } 
   ngOnInit() {
+  
   $('#location').val(this._routeParams.get('locationid'));
   $('#desk').val(this._routeParams.get('desk'));
   this.locationid=this._routeParams.get('locationid');
   this.desk=this._routeParams.get('desk');
+  if(this._routeParams.get('locationid')==null){this.locationid_div='0'; localStorage.removeItem("select_location");}
+  else{this.locationid_div='1';}
+  
   $("#registrationForm input").focus(function(){
 	$(this).removeClass('error');
 	});

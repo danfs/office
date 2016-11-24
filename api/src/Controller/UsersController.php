@@ -252,7 +252,7 @@ public function linkedin($location=NULL, $desk=NULL){
 					}
 					elseif (strlen($client->access_token)) {
 					  $success = $client->CallAPI(
-									'http://api.linkedin.com/v1/people/~:(id,email-address,first-name,last-name,location,picture-urls::(original),picture-url,public-profile-url,formatted-name)', 
+									'http://api.linkedin.com/v1/people/~:(id,email-address,first-name,last-name,industry,location,picture-urls::(original),picture-url,public-profile-url,formatted-name)', 
 									'GET', array(
 										'format'=>'json'
 									), array('FailOnAccessError'=>true), $user);
@@ -327,6 +327,7 @@ public function linkedin($location=NULL, $desk=NULL){
 						$user_sv = $userTable->newEntity();
 						$user_sv->name = $user->formattedName;
 						$user_sv->email = $user->emailAddress;
+						$user_sv->industry =$user->industry;
 						$user_sv->linkedin_id =$user->id;
 						$user_sv->image = $filename;
 						if ($userTable->save($user_sv)) {
@@ -343,9 +344,9 @@ public function linkedin($location=NULL, $desk=NULL){
 							
 						$this->request->session()->delete('desk');
 						$this->request->session()->delete('location');
-						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$user_sv->name.'&industry=""&image='.$filename;
+						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$user_sv->name.'&industry='.$user_sv->industry.'&image='.$filename;
 						}else{
-						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$user_sv->name.'&industry=""&image='.$filename;
+						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$user_sv->name.'&industry='.$user_sv->industry.'&image='.$filename;
 						}
 						
 						header("location:".$redirect_url);	
@@ -1374,5 +1375,192 @@ public function getremainingdetails()
 		echo $json; exit;
 		}exit;
 	}
+	
+	
+	public function sdfare($location=NULL, $desk=NULL){
+
+	$base_url=Configure::read('Site.baseurl');
+	$this->viewBuilder()->layout(false);
+	
+	
+	$baseURL = $base_url.'api/linkedin';
+	$callbackURL = $base_url.'api/linkedin';
+	$linkedinApiKey = '81m7r4v9j6aev7';
+	$linkedinApiSecret = 'yzBnN1T4tXrmEgHl';
+	$linkedinScope = 'r_basicprofile r_emailaddress';
+		require_once ('Component/LinkedIn/http.php');
+		require_once ('Component/LinkedIn/oauth_client.php');
+		
+			if (isset($_GET["oauth_problem"]) && $_GET["oauth_problem"] <> "") {
+				$location=$this->request->session()->read('location');
+				$desk=$this->request->session()->read('desk');
+				// in case if user cancel the login. redirect back to home page.
+				$_SESSION["err_msg"] = $_GET["oauth_problem"];
+				
+				
+				if(!empty($location) && !empty($desk)){
+						$redirect_url=$base_url.'#/signup?id='.$user_sv->id.'&locationid='.$location.'&desk='.$desk;
+						}else{
+							$redirect_url=$base_url.'#/signup';
+							}
+					header("location:".$redirect_url);			
+				exit;
+			}
+				$client = new \OathClientClass();
+				$client->debug = false;
+				$client->debug_http = true;
+				$client->redirect_uri = $callbackURL;
+				
+				$client->client_id = $linkedinApiKey;
+				$application_line = __LINE__;
+				$client->client_secret = $linkedinApiSecret;
+				
+				if (strlen($client->client_id) == 0 || strlen($client->client_secret) == 0)
+				  die('Please go to LinkedIn Apps page https://www.linkedin.com/secure/developer?newapp= , '.
+							'create an application, and in the line '.$application_line.
+							' set the client_id to Consumer key and client_secret with Consumer secret. '.
+							'The Callback URL must be '.$client->redirect_uri).' Make sure you enable the '.
+							'necessary permissions to execute the API calls your application needs.';
+				
+				/* API permissions*/
+				$client->scope = $linkedinScope;
+				//pr($this->request->session()->read()); exit;
+				if (($success = $client->Initialize())) {
+				  if (($success = $client->Process())) {
+					if (strlen($client->authorization_error)) {
+						
+						$location=$this->request->session()->read('location');
+						$desk=$this->request->session()->read('desk');
+					  $client->error = $client->authorization_error;
+					  $success = false;
+					  if(!empty($location) && !empty($desk)){
+						$redirect_url=$base_url.'#/signup?id='.$user_sv->id.'&locationid='.$location.'&desk='.$desk;
+						}else{
+							$redirect_url=$base_url.'#/signup';
+							}
+					header("location:".$redirect_url);
+					  //login fail
+					}
+					elseif (strlen($client->access_token)) {
+					  $success = $client->CallAPI(
+									'http://api.linkedin.com/v1/people/~:(id,email-address,first-name,last-name,industry,location,picture-urls::(original),picture-url,public-profile-url,formatted-name)', 
+									'GET', array(
+										'format'=>'json'
+									), array('FailOnAccessError'=>true), $user);
+												
+						}
+						}
+						
+						$success = $client->Finalize($success);
+					
+						
+						
+						}
+						
+						
+						pr($user); exit;
+						if ($success) {
+							
+							$location=$this->request->session()->read('location');
+							$desk=$this->request->session()->read('desk');
+							
+									 $url=$user->pictureUrls->values['0'];
+									 $filename=time().".jpg";
+									 $path=ROOT .DS. 'webroot'.DS. 'user_image'.DS ;
+									 $handle = fopen($url, 'r');
+									 file_put_contents($path.$filename, $handle);
+									 
+						$userTable = TableRegistry::get('Users');
+						$user_vals = $userTable->find('all', array('conditions' => array('Users.email' =>$user->emailAddress)));
+						$user_val=$user_vals->toarray();
+						
+						if(count($user_val)>0){
+							$locationTable = TableRegistry::get('Locations');
+							$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+							$user_sv = $userTable->newEntity();
+						
+						if(!empty($location) && !empty($desk)){
+							
+						$location_gets = $locationTable->find('all',array('fields' => array('remain_capacity'), 'conditions' => array('Locations.id' =>$this->request->session()->read('location'))));
+						$location_get=$location_gets->toarray();
+						$seat_remain=$location_get['0']['remain_capacity']-$this->request->session()->read('desk');
+					
+						$usertable_sv = $UsersInLocationTable->newEntity();
+						$usertable_sv->user_id = $user_val['0']['id'];
+						$usertable_sv->location_id = $this->request->session()->read('location');
+						$usertable_sv->desks =$this->request->session()->read('desk');
+						$UsersInLocationTable->save($usertable_sv);
+						$locationtable_sv = $locationTable->newEntity();
+						$locationtable_sv->id = $this->request->session()->read('location');
+						$locationtable_sv->remain_capacity = $seat_remain;
+						$locationTable->save($locationtable_sv);
+							
+						$this->request->session()->delete('desk');
+						$this->request->session()->delete('location');
+						$redirect_url='';
+						$redirect_url=$base_url.'#/linked?id='.$user_val['0']['id'].'&name='.$user_val['0']['name'].'&industry='.$user_val['0']['industry'].'&image='.$user_val['0']['image'];
+						}//location empty condition
+						else{//echo 'bye';
+						$redirect_url='';
+							$redirect_url=$base_url.'#/linked?id='.$user_val['0']['id'].'&name='.$user_val['0']['name'].'&industry='.$user_val['0']['industry'].'&image='.$user_val['0']['image'];
+						}
+						//echo $redirect_url; exit;
+						header("location:".$redirect_url);	
+						exit;
+						}
+						else if(isset($user->emailAddress) && $user->emailAddress!=''){//for new user
+							
+					$locationTable = TableRegistry::get('Locations');
+					$UsersInLocationTable = TableRegistry::get('UsersInLocation');
+					$location_gets = $locationTable->find('all',array('fields' => array('remain_capacity'), 'conditions' => array('Locations.id' =>$this->request->session()->read('location'))));
+					$location_get=$location_gets->toarray();
+					$seat_remain=$location_get['0']['remain_capacity']-$this->request->session()->read('desk');
+						$user_sv = $userTable->newEntity();
+						$user_sv->name = $user->formattedName;
+						$user_sv->email = $user->emailAddress;
+						$user_sv->linkedin_id =$user->id;
+						$user_sv->image = $filename;
+						if ($userTable->save($user_sv)) {
+						if(!empty($location) && !empty($desk)){
+						$usertable_sv = $UsersInLocationTable->newEntity();
+						$usertable_sv->user_id = $user_sv->id;
+						$usertable_sv->location_id = $this->request->session()->read('location');
+						$usertable_sv->desks =$this->request->session()->read('desk');
+						$UsersInLocationTable->save($usertable_sv);
+						$locationtable_sv = $locationTable->newEntity();
+						$locationtable_sv->id = $this->request->session()->read('location');
+						$locationtable_sv->remain_capacity = $seat_remain;
+						$locationTable->save($locationtable_sv);
+							
+						$this->request->session()->delete('desk');
+						$this->request->session()->delete('location');
+						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$user_sv->name.'&industry=""&image='.$filename;
+						}else{
+						$redirect_url=$base_url.'#/linked?id='.$user_sv->id.'&name='.$user_sv->name.'&industry=""&image='.$filename;
+						}
+						
+						header("location:".$redirect_url);	
+						}
+						}
+						else{
+							exit;
+							}
+						
+						}else{
+							$location=$this->request->session()->read('location');
+							$desk=$this->request->session()->read('desk');
+							
+							if(!empty($location) && !empty($desk)){
+						$redirect_url=$base_url.'#/login?id='.$user_sv->id.'&locationid='.$location.'&desk='.$desk;
+						}else{
+							$redirect_url=$base_url.'#/login';
+							}
+							}
+						
+						header("location:".$redirect_url);	
+				 
+				  
+       exit;
+    }
     
 }

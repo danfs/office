@@ -54,7 +54,7 @@ enableProdMode();
                 <li><a (click)="faqopen($event)" routerLinkActive="active">FAQ</a></li>
                 <li><a  (click)="about_us($event)" routerLinkActive="active">About Us</a></li>
                 <li><a  (click)="contact_us($event)" routerLinkActive="active">Contact Us</a></li>
-				<li *ngIf="loginId==null" id='auth_li'><a href="javascript:;" id="login_action">Login</a></li>
+				<li *ngIf="loginId==null" id='auth_li'><a (click)="login_pg($event)" id="login_action">Login</a></li>
 				<li *ngIf="loginId!=null" id='auth_li'><a href="javascript:;" id="logout">Logout</a></li>
             </ul>
             <div class="media_icons">
@@ -291,6 +291,8 @@ loginId: string = localStorage.getItem("user.id");
 	
 	ngOnInit() {
 	var ruot=this._router
+	
+	localStorage.removeItem("select_location");
 	
 	$('#cotact_email').focus(function(){$('#cotact_email').removeClass("error");});
 	$('#cotact_mssg').focus(function(){$('#cotact_mssg').removeClass("error");});
