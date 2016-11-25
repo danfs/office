@@ -70,7 +70,7 @@ Home(event) {
 						if (typeof obj.user.image !== "undefined") {
 						localStorage.setItem("user.image", obj.user.image);
 						}else{
-						localStorage.setItem("user.image", '');
+						localStorage.setItem("user.image", 'small_no-image.jpg');
 						}
 						localStorage.setItem("nextloc", obj.nextloc);
 						$("#auth_li").html('<a routerlinkactive="active" id="logout">Logout</a>');

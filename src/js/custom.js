@@ -28,8 +28,12 @@ function tweetCurrentPage()
 	var link_url=e.getAttribute('rel');
 	var url=window.location.href;
 	var new_text = url.split('#');
-	var texturl=new_text[0]+'#/'+link_url;
-	window.open("https://twitter.com/share?url="+escape(texturl)+"&text="+document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false; }
+	var url_aaray=link_url.split('/');
+	//alert(url_aaray.toSource());
+	var select_location=encodeURIComponent(url_aaray[1]);
+	//alert(select_location);
+	var texturl=new_text[0]+'#/'+url_aaray[0]+'/'+select_location+'/'+url_aaray[2];
+	window.open("https://twitter.com/share?url="+encodeURIComponent(texturl+ "/")+"&text="+document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false; }
 
 
 
