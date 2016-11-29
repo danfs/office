@@ -36,7 +36,20 @@ function tweetCurrentPage()
 	window.open("https://twitter.com/share?url="+encodeURIComponent(texturl+ "/")+"&text="+document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false; }
 
 
-
+function mailto_href(e)
+    { 
+	var link_url=e.getAttribute('rel');
+	var url=window.location.href;
+	var new_text = url.split('#');
+	var url_aaray=link_url.split('/');
+	//alert(url_aaray.toSource());
+	var select_location=encodeURIComponent(url_aaray[1]);
+	var subject=encodeURIComponent("Share location on work place");
+	//alert(select_location);
+	var texturl=new_text[0]+'#/'+url_aaray[0]+'/'+select_location+'/'+url_aaray[2];
+	window.location.href = "mailto:info@theworkplace.cc?subject="+subject+"&body="+texturl;
+	return false; 
+	}
 
 
 	

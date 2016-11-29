@@ -29,7 +29,7 @@ var locatIds=this._routeParams.get('locationid');
   		if(locatIds!=null){
 this._router.navigate(['Signup',{ locationid:this._routeParams.get('locationid'),desk:this._routeParams.get('desk')}]);
 }else{
-this._router.navigate(['Signup');
+this._router.navigate(['Signup']);
 
 }
 }		                                                                                                                       loginUser() {

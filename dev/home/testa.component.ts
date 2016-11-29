@@ -57,5 +57,5 @@ Home(event) {
 			event.preventDefault();
 			this.router.navigate(['Home']);
 			}
-
+}
 			

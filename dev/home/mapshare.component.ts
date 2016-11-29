@@ -15,6 +15,8 @@ constructor(private _router: Router,private _routeParams: RouteParams,private zo
   ngOnInit() {
   var ths=this._router
   var userId=this._routeParams.get('user');
+  this.select_location=localStorage.getItem('select_location');
+  this.loctionID=localStorage.getItem("loctionID");
   var location=this._routeParams.get('location');
   $.ajax({
 					url:"api/users/getuser",
