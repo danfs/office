@@ -31,7 +31,9 @@ Home(event) {
 	this.name=decodeURIComponent(this._routeParams.get('name'));
 	this.industry=decodeURIComponent(this._routeParams.get('industry'));
 	var imgs=decodeURIComponent(this._routeParams.get('image'));
-	this.select_location=localStorage.getItem('select_location')
+	this.select_location=localStorage.getItem('select_location');
+	
+	this.loctionID=localStorage.getItem("loctionID");
 	if(imgs!==''){
 	this.image = imgs;
 	}else{this.image = 'small_no-image.png';}

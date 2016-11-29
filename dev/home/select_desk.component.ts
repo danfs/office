@@ -15,6 +15,9 @@ remain = [];
 constructor(private _router: Router,private _routeParams: RouteParams) {
 
 localStorage.setItem("select_location", this._routeParams.get('location_name'));
+localStorage.setItem("loctionID", this._routeParams.get('locationid'));
+
+
  if(Number(this._routeParams.get('remain'))>'20'){
   var maxdesk='20';
   }else{var maxdesk=Number(this._routeParams.get('remain'));}
@@ -205,6 +208,8 @@ function newNumber() {
 			
 			var userId=localStorage.getItem("user.id");
   		if(userId!=null){
+		
+		var loctionID=this._routeParams.get('locationid');
 			var url='./api/users/direct_location/'+localStorage.getItem("user.id")+'/'+this._routeParams.get('locationid')+'/'+desk;
 			$.ajax({
           url:url,
