@@ -47,7 +47,7 @@ function mailto_href(e)
 	var subject=encodeURIComponent("Share location on work place");
 	//alert(select_location);
 	var texturl=new_text[0]+'#/'+url_aaray[0]+'/'+select_location+'/'+url_aaray[2];
-	window.location.href = "mailto:info@theworkplace.cc?subject="+subject+"&body="+texturl;
+	window.location.href = "mailto:dan@theworkplace.cc?subject="+subject+"&body="+texturl;
 	return false; 
 	}
 

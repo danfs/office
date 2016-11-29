@@ -287,7 +287,6 @@ loginId: string = localStorage.getItem("user.id");
     var fbsecret = 'a33652f01dc1d2b38407496ea8e2711f';
 	window.open('https://www.facebook.com/dialog/permissions.request?app_id='+fbid+'&display=popup&next='+siteurl+'api/users/fb_login/?back='+siteurl+'api/users/facebooklogin?true&response_type=token&fbconnect=1&perms=email,user_about_me,user_photos,user_videos,user_birthday,publish_stream','fbauth','height=350px,width=700px,top=200px,left=200px');
 	}
-	//==========//
 	
 	ngOnInit() {
 	var ruot=this._router
