@@ -1359,6 +1359,34 @@ public function getremainingdetails()
 		}exit;
 	}
 	
+	
+	public function contactusmail()
+    {
+		$mailContent1='<p> Hello Admin </p>';
+		
+		$mailContent1.='<p> Someone has submitted the contact form from our site. Please check his details below are: </p>';
+		
+		$mailContent1.='<p> <strong>Email:</strong>  '.$this->request->data['email'].' </p>';
+		$mailContent1.='<p> <strong>Message:</strong> '.$this->request->data['cotact_mssg'].' </p>';
+		
+		$mailContent1.='<p> Thanks, <br />';
+		$mailContent1.='The WorkPlace Team </p>';
+		
+		$to1 = 'dan@theworkplace.cc';
+		$subject1 = 'Contact Us Message ';
+		$headers1 = "MIME-Version: 1.0\r\n";
+		$headers1 .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		$headers1 .= 'From: Info Workplace<info@theworkplace.cc>' . "\r\n";
+		
+		if(mail($to1, $subject1, $mailContent1, $headers1)) {
+			$json = json_encode(array('status' => 'success'));
+			} else {
+				$json = json_encode(array('status' => 'fail'));
+				};
+	
+		echo $json; exit;
+	}
+	
 	public function sescheck()
     {
 		$locationTable = TableRegistry::get('Locations');

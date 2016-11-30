@@ -189,4 +189,9 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
     alert("Please share this article in mobile device");
 }
 });
+
+$(document).on("focus",'.error1',function() {
+$(this).removeClass('error1');
+});
+
 });

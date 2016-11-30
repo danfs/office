@@ -254,26 +254,48 @@ loginId: string = localStorage.getItem("user.id");
   var error='1';
  
  			if($('#cotact_email').val()==''){
-			$('#cotact_email').addClass("error");
+			$('#cotact_email').addClass("error1");
 			 error++;
 			}
 			if($('#cotact_mssg').val()==''){
-			$('#cotact_mssg').addClass("error");
+			$('#cotact_mssg').addClass("error1");
 			 error++;
 			}
   			if($('#cotact_email').val()!='' && !pattern.test($('#cotact_email').val()))
         	{
-          	$('#cotact_email').addClass("error");
+          	$('#cotact_email').addClass("error1");
 		  	error++;
 		  
-        	}else{
-			$('#cotact_email').removeClass("error");
-		}
+        	}
 	  
 	  if(error=='1'){
-	  $('#cotact_email').val('');
-	  $('#cotact_mssg').val('');
-	  alert('message sucessfully send please wait for reply');
+	  
+	  $.ajax({
+					url:"api/users/contactusmail",
+					type: "POST",
+					data: ({email:$('#cotact_email').val(),cotact_mssg:$('#cotact_mssg').val()}),
+					beforeSend:function()
+					{},
+					success: function(response)
+					{
+					
+						$('#cotact_email').removeClass("error1");
+						$('#cotact_mssg').removeClass("error1");
+						var obj = $.parseJSON(response);
+						if(obj.status=="success")
+						{
+						$('#cotact_email').val('');
+						$('#cotact_mssg').val('');
+						alert('message sucessfully send please wait for reply');
+						
+						}
+						else if(obj.status=="fail")
+						{
+						alert('message not send please try again');
+						}
+					}
+	
+				});
 	  }
   }
   
