@@ -93,6 +93,20 @@ class UsersController extends AppController
 						$locationtable_sv->id = $this->request->data['location'];
 						$locationtable_sv->remain_capacity = $seat_remain;
 						$locationTable->save($locationtable_sv);
+						
+						$mailContent=$to=$subject=$headers='';
+						$mailContent='<p> Hello Admin </p>';
+						$mailContent.='<p> Someone has signed up with the Location id: '.$this->request->data['location'].', number of desks: '.$this->request->data['desk'].' and the number of desks remaining: '.$seat_remain.'. </p>';
+						$mailContent.='<p> Thanks, <br />';
+						$mailContent.='The WorkPlace Team </p>';
+						$to = 'dan_fs@hotmail.com';
+						$subject = 'Someone has signed up with Location';
+						$headers = "MIME-Version: 1.0\r\n";
+						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+						$headers .= 'From: Info Workplace<info@ninenetics.com>' . "\r\n";
+						mail($to, $subject, $mailContent, $headers);
+						
+						
 						$nextloc='location';
 						//seat_remain
 				}else{$nextloc='home';}
@@ -354,6 +368,19 @@ public function linkedin($location=NULL, $desk=NULL){
 						$locationtable_sv->id = $this->request->session()->read('location');
 						$locationtable_sv->remain_capacity = $seat_remain;
 						$locationTable->save($locationtable_sv);
+						
+						
+						$mailContent=$to=$subject=$headers='';
+						$mailContent='<p> Hello Admin </p>';
+						$mailContent.='<p> Someone has signed up with the Location id: '.$this->request->session()->read('location').', number of desks: '.$this->request->session()->read('desk').' and the number of desks remaining: '.$seat_remain.'. </p>';
+						$mailContent.='<p> Thanks, <br />';
+						$mailContent.='The WorkPlace Team </p>';
+						$to = 'dan_fs@hotmail.com';
+						$subject = 'Someone has signed up with Location';
+						$headers = "MIME-Version: 1.0\r\n";
+						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+						$headers .= 'From: Info Workplace<info@ninenetics.com>' . "\r\n";
+						mail($to, $subject, $mailContent, $headers);
 							
 						$this->request->session()->delete('desk');
 						$this->request->session()->delete('location');
