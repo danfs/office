@@ -176,6 +176,20 @@ class UsersController extends AppController
 						$locationtable_sv->id = $locations_get;
 						$locationtable_sv->remain_capacity = $seat_remain;
 						$locationTable->save($locationtable_sv);
+						
+						
+						
+						$mailContent=$to=$subject=$headers='';
+						$mailContent='<p> Hello Admin </p>';
+						$mailContent.='<p> Someone has Booked loaction on WorkPlace. the Location id: '.$locations_get.', number of desks: '.$desk.' and the number of desks remaining: '.$seat_remain.'. </p>';
+						$mailContent.='<p> Thanks, <br />';
+						$mailContent.='The WorkPlace Team </p>';
+						$to = 'dan_fs@hotmail.com';
+						$subject = 'Someone has signed up with Location';
+						$headers = "MIME-Version: 1.0\r\n";
+						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+						$headers .= 'From: Info Workplace<info@ninenetics.com>' . "\r\n";
+						mail($to, $subject, $mailContent, $headers);
 				
 				
 				$json = json_encode(array('status' => 'success','act'=>'desksave','user' =>$results));
